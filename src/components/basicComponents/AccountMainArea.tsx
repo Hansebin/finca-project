@@ -1,10 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import { nonmember } from "../../datas/nonmemberData";
+import StartPageAccountDetails from "./StartPageAccountDetails";
+import MoveButton from "./MoveButton";
 
 const { name, accountNumber, balance } = nonmember;
 
-const AccountBox = styled.div`
+const Box = styled.div`
   width: 500px;
   height: 750px;
 
@@ -17,7 +19,7 @@ const AccountBox = styled.div`
 const AccountMainArea: React.FC = () => {
   return (
     <>
-      <AccountBox>
+      <Box>
         <div>
           <p className="text-xl font-bold text-gray-002">
             계좌 {accountNumber}
@@ -30,7 +32,17 @@ const AccountMainArea: React.FC = () => {
             {balance.toLocaleString()}원
           </span>
         </p>
-      </AccountBox>
+        <div className="flex flex-row gap-x-5">
+          <button className="basis-1/2 h-12 bg-re-color-001 rounded-md text-xl font-bold text-re-color-004 mt-9">
+            송금
+          </button>
+          <button className="basis-1/2 h-12 bg-re-color-001 rounded-md text-xl font-bold text-re-color-004 mt-9">
+            충전
+          </button>
+        </div>
+        <StartPageAccountDetails />
+        <MoveButton page="로그인" to="/login" />
+      </Box>
     </>
   );
 };
