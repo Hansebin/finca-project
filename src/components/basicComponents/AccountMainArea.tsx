@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { nonmember } from "../../datas/nonmemberData";
 
-const { name, accountNumber, balance, expenditureDetails } = nonmember;
+const { name, accountNumber, balance } = nonmember;
 
 const AccountBox = styled.div`
   width: 500px;
