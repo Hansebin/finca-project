@@ -26,17 +26,17 @@ const AccountMainArea: React.FC = () => {
           </p>
           <p className="text-3xl font-bold text-re-color-004">{name}</p>
         </div>
-        <p className="text-2xl font-bold text-re-color-004 mt-6">
+        <p className="text-2xl font-bold text-re-color-004 mt-7">
           잔액{" "}
           <span className="text-re-color-002">
             {balance.toLocaleString()}원
           </span>
         </p>
-        <div className="flex flex-row gap-x-5">
-          <button className="basis-1/2 h-12 bg-re-color-001 rounded-md text-xl font-bold text-re-color-004 mt-9">
+        <div className="flex flex-row gap-x-4 mt-5">
+          <button className="basis-1/2 h-10 bg-re-color-001 rounded-md text-xl font-bold text-re-color-004">
             송금
           </button>
-          <button className="basis-1/2 h-12 bg-re-color-001 rounded-md text-xl font-bold text-re-color-004 mt-9">
+          <button className="basis-1/2 h-10 bg-re-color-001 rounded-md text-xl font-bold text-re-color-004">
             충전
           </button>
         </div>

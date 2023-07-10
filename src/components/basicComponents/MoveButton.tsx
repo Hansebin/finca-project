@@ -7,7 +7,7 @@ interface OwnProps {
   to: string;
 }
 
-const LoginButton = styled.button`
+const Button = styled.button`
   width: 200px;
   height: 50px;
 
@@ -19,7 +19,7 @@ const LoginButton = styled.button`
 
   border-radius: 7px;
 
-  margin-top: 55px;
+  margin-top: 59px;
   margin-left: calc((400px - 200px) / 2);
 `;
 
@@ -27,7 +27,7 @@ const MoveButton: React.FC<OwnProps> = (props) => {
   return (
     <div>
       <Link to={props.to}>
-        <LoginButton>{props.page}</LoginButton>
+        <Button>{props.page}</Button>
       </Link>
     </div>
   );
