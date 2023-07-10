@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import SideNav from "../components/basicComponents/SideNav";
-import JoinMainArea from "../components/basicComponents/JoinMainArea";
+import JoinMainArea from "../components/basicComponents/joinPageComponents/JoinMainArea";
 
 const Container = styled.div`
   display: flex;
