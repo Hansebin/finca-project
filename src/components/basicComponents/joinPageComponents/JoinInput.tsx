@@ -1,22 +1,15 @@
 import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
+import { inputValueState, IsValidState } from "../../../datas/recoilData";
+import {
+  InputData,
+  InputDataWithoutDetails,
+  InputDataIsValid,
+} from "../../../typeModel/JoinInputData";
 
-const Box = styled.div`
-  width: 500px;
-  height: 750px;
-
-  background: #fff;
-  border-radius: 10px;
-
-  padding: 50px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
+// styled-components
 const InputTitle = styled.p`
   font-size: 20px;
   color: #36338c;
@@ -43,19 +36,110 @@ const Valid = styled.p`
 
 interface OwnProps {
   title: string;
-  place: string;
+  text: string;
+  data: string;
 }
+// styled-components
 
 const JoinInput: React.FC<OwnProps> = (props) => {
   const [validText, setValidText] = useState<string>("ㆍ 필수 입력");
-  // 유효성 검사를 통해서 조건에 맞지 않다면 입력하고 있는 input과 가장 가꺼운 Valid를 찾아서 setValidText를 해주고, 이는 useMemo로 memoization을 한다.
-  // 모든 validText를 변경하는 게 아니라, 현재 입력하고 있는 입력창과 가장 가까운 validText 1개만 변경할 수 있도록 한다.
+
+  const [inputValue, setInputValue] =
+    useRecoilState<InputData>(inputValueState);
+
+  const [isValid, setIsValid] = useRecoilState<InputDataIsValid>(IsValidState);
+
+  // 유효성 검사 항목 -> 파일로 따로 관리
+  const isValidName = (name: string) => {
+    const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z]+$/;
+    return regex.test(name);
+  };
+
+  const isValidAccountNumber = (accountNumber: string) => {
+    const regex = /^\d{12}$/;
+    return regex.test(accountNumber);
+  };
+
+  const isValidBankingNumber = (bankingNumber: string) => {
+    const regex = /^\d{6}$/;
+    return regex.test(bankingNumber);
+  };
+
+  const isValidEmail = (id: string) => {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(id);
+  };
+
+  const isValidPassword = (password: string) => {
+    const regex = /^[\d\W]+$/;
+    return regex.test(password);
+  };
+  // 유효성 검사 항목
+
+  // 유효성 검사 함수 -> 파일로 따로 관리
+  // + 이메일의 경우 이미 사용중인 이메일은 사용할 수 없도록 메시지 띄어주기
+  const handleValidation = (name: string, value: string) => {
+    let message = "";
+    let isValidResult = false;
+
+    if (name === "name") {
+      isValidResult = isValidName(value);
+      message = isValidResult
+        ? "사용 가능한 이름입니다."
+        : "올바르지 않은 이름입니다.";
+    } else if (name === "accountNumber") {
+      isValidResult = isValidAccountNumber(value);
+      message = isValidResult
+        ? "사용 가능한 계좌번호입니다."
+        : "올바르지 않은 계좌번호입니다.";
+    } else if (name === "bankingNumber") {
+      isValidResult = isValidBankingNumber(value);
+      message = isValidResult
+        ? "사용 가능한 뱅킹번호입니다."
+        : "올바르지 않은 뱅킹번호입니다.";
+    } else if (name === "id") {
+      isValidResult = isValidEmail(value);
+      message = isValidResult
+        ? "사용 가능한 이메일입니다."
+        : "올바르지 않은 이메일입니다.";
+    } else if (name === "password") {
+      isValidResult = isValidPassword(value);
+      message = isValidResult
+        ? "사용 가능한 비밀번호입니다."
+        : "올바르지 않은 비밀번호입니다.";
+    }
+
+    setValidText(message);
+
+    setIsValid((prevIsValid) => ({
+      ...prevIsValid,
+      [name]: isValidResult,
+    }));
+  };
+  // 유효성 검사 함수
+
+  // 특정 시간 후에 저장되도록 -> 실시간으로 반영되면 오히려 비효율!
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setInputValue((prevInputValues) => ({
+      ...prevInputValues,
+      [name]: value,
+    }));
+
+    handleValidation(name, value);
+  };
 
   return (
     <div className="mb-3">
       <div className="flex flex-row items-center bg-re-color-001 w-25 rounded-lg p-3">
         <InputTitle>{props.title}</InputTitle>
-        <Input required placeholder={props.place} />
+        <Input
+          required
+          placeholder={props.text}
+          name={props.data}
+          value={inputValue[props.data as keyof InputDataWithoutDetails] || ""}
+          onChange={handleChange}
+        />
       </div>
       <Valid>{validText}</Valid>
     </div>

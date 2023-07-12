@@ -49,7 +49,7 @@ const LoginMainArea: React.FC = () => {
               type="text"
               required
               className="bg-re-color-001 w-230 font-medium text-lg"
-              placeholder="아이디를 입력하세요"
+              placeholder="아이디를 입력하세요."
             ></Input>
           </div>
           <div className="flex flex-row justify-between items-center bg-re-color-001 w-24 rounded-lg p-3 mb-6">
@@ -58,7 +58,7 @@ const LoginMainArea: React.FC = () => {
               type="password"
               required
               className="bg-re-color-001 w-220 text-lg font-medium"
-              placeholder="비밀번호를 입력하세요"
+              placeholder="비밀번호를 입력하세요."
             ></Input>
           </div>
           <p className="text-base font-bold text-re-color-002">
@@ -74,7 +74,7 @@ const LoginMainArea: React.FC = () => {
           <button className="w-10 h-10 bg-re-color-002 rounded-full font-bold text-white text-xl mb-1">
             G
           </button>
-          <p className="text-xs font-semibold text-gray-004">구글</p>
+          <p className="text-xs font-bold text-re-color-002">구글</p>
         </div>
       </Box>
     </>

@@ -1,10 +1,14 @@
 import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
 import JoinInput from "./JoinInput";
+import { inputValueState, IsValidState } from "../../../datas/recoilData";
+import { InputData, InputDataIsValid } from "../../../typeModel/JoinInputData";
+import { auth, createUserWithEmailAndPassword } from "../../../firebase";
+import { db, collection, doc, setDoc } from "../../../firebase";
 
-// 입력창 component로 구분해서 props에 값을 받아서 사용! => 수정 필요한 부분!!
-
+// styled-components
 const Box = styled.div`
   width: 500px;
   height: 750px;
@@ -51,22 +55,85 @@ const InactiveButton = styled.button`
 
   margin-top: 20px;
 `;
+// styled-components
 
 const JoinMainArea: React.FC = () => {
-  const [complete, setComplete] = useState<boolean>(false);
-  // 모든 입력창을 조건에 맞게 작성하면 true로 값을 변경시킨다. 이는 useMemo로 memoization을 한다.
+  const [inputValue] = useRecoilState<InputData>(inputValueState);
+
+  const [isValid] = useRecoilState<InputDataIsValid>(IsValidState);
+
+  const {
+    name,
+    accountNumber,
+    bankingNumber,
+    id,
+    password,
+    totalPrice,
+    expectSpending,
+    expectIncome,
+    accountList,
+    accountBookList,
+  } = inputValue;
+
+  const join = async () => {
+    try {
+      const createdUser = await createUserWithEmailAndPassword(
+        auth,
+        id,
+        password
+      );
+
+      const userUID = createdUser.user.uid;
+
+      const userData = {
+        name: name,
+        accountNumber: accountNumber,
+        bankingNumber: bankingNumber,
+        id: id,
+        password: password,
+        totalPrice: totalPrice,
+        expectSpending: expectSpending,
+        expectIncome: expectIncome,
+        accountList: accountList,
+        accountBookList: accountBookList,
+      };
+
+      await setDoc(doc(collection(db, "users"), userUID), userData);
+
+      alert("회원가입 성공!");
+      window.location.href = "/login";
+    } catch (error) {
+      console.error("회원가입 중 오류가 발생했습니다", error);
+      alert(error);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    join();
+  };
+
+  const isAllValid = (obj: InputDataIsValid) => {
+    return Object.values(obj).every((value) => value === true);
+  };
 
   return (
     <>
       <Box>
-        <form className="flex flex-col justify-center items-center">
-          <JoinInput title="이름" place="한글 영문" />
-          <JoinInput title="대표 계좌" place="12자리 숫자" />
-          <JoinInput title="뱅킹 번호" place="6자리 숫자" />
-          <JoinInput title="아이디" place="* 이메일만 가능" />
-          <JoinInput title="비밀번호" place="숫자, 특수 문자" />
-          <JoinInput title="비밀번호 확인" place="" />
-          {!complete ? (
+        <form
+          className="flex flex-col justify-center items-center"
+          onSubmit={handleSubmit}
+        >
+          <JoinInput title="이름" text="한글, 영문" data="name" />
+          <JoinInput
+            title="대표 계좌"
+            text="12자리 숫자"
+            data="accountNumber"
+          />
+          <JoinInput title="뱅킹 번호" text="6자리 숫자" data="bankingNumber" />
+          <JoinInput title="아이디" text="* 이메일만 가능" data="id" />
+          <JoinInput title="비밀번호" text="숫자, 특수 문자" data="password" />
+          {!isAllValid(isValid) ? (
             <InactiveButton type="submit" disabled>
               회원가입
             </InactiveButton>
