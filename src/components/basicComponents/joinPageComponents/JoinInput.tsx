@@ -8,6 +8,13 @@ import {
   InputDataWithoutDetails,
   InputDataIsValid,
 } from "../../../typeModel/JoinInputData";
+import {
+  isValidName,
+  isValidAccountNumber,
+  isValidBankingNumber,
+  isValidEmail,
+  isValidPassword,
+} from "./validItemFun";
 
 // styled-components
 const InputTitle = styled.p`
@@ -49,35 +56,6 @@ const JoinInput: React.FC<OwnProps> = (props) => {
 
   const [isValid, setIsValid] = useRecoilState<InputDataIsValid>(IsValidState);
 
-  // 유효성 검사 항목 -> 파일로 따로 관리
-  const isValidName = (name: string) => {
-    const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z]+$/;
-    return regex.test(name);
-  };
-
-  const isValidAccountNumber = (accountNumber: string) => {
-    const regex = /^\d{12}$/;
-    return regex.test(accountNumber);
-  };
-
-  const isValidBankingNumber = (bankingNumber: string) => {
-    const regex = /^\d{6}$/;
-    return regex.test(bankingNumber);
-  };
-
-  const isValidEmail = (id: string) => {
-    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return regex.test(id);
-  };
-
-  const isValidPassword = (password: string) => {
-    const regex = /^[\d\W]+$/;
-    return regex.test(password);
-  };
-  // 유효성 검사 항목
-
-  // 유효성 검사 함수 -> 파일로 따로 관리
-  // + 이메일의 경우 이미 사용중인 이메일은 사용할 수 없도록 메시지 띄어주기
   const handleValidation = (name: string, value: string) => {
     let message = "";
     let isValidResult = false;
