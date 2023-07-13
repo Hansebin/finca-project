@@ -14,6 +14,8 @@ const Box = styled.div`
   border-radius: 10px;
 
   padding: 50px;
+
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 `;
 
 const AccountMainArea: React.FC = () => {

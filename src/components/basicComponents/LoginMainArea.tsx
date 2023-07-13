@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { auth, signInWithEmailAndPassword } from "../../firebase";
 
@@ -47,6 +47,8 @@ const LoginMainArea: React.FC = () => {
   const [emailId, setEmailId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  const navigate = useNavigate();
+
   // 입력한 텍스트 실시간 setState -> n초 후 반영될 수 있도록 최적화?
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -64,7 +66,7 @@ const LoginMainArea: React.FC = () => {
     try {
       const data = await signInWithEmailAndPassword(auth, emailId, password);
       const userUID = data.user.uid;
-      window.location.href = `/member/:${userUID}`;
+      navigate(`/member/${userUID}`);
     } catch (error) {
       console.log(error);
     }
