@@ -38,3 +38,13 @@ export type InputDataIsValid = {
   id: boolean;
   password: boolean;
 };
+
+export type SocialInputDataIsValid = {
+  accountNumber: boolean;
+  bankingNumber: boolean;
+};
+
+export type SocialJoinUserData = {
+  name: string | null;
+  userUID: string;
+};

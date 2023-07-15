@@ -1,5 +1,10 @@
 import { atom } from "recoil";
-import { InputData, InputDataIsValid } from "../typeModel/JoinInputData";
+import {
+  InputData,
+  InputDataIsValid,
+  SocialJoinUserData,
+  SocialInputDataIsValid,
+} from "../typeModel/JoinInputData";
 import { Member, ClickNav } from "../typeModel/member";
 
 export const inputValueState = atom<InputData>({
@@ -29,6 +34,14 @@ export const IsValidState = atom<InputDataIsValid>({
   },
 });
 
+export const SocialIsValidState = atom<SocialInputDataIsValid>({
+  key: "SocialIsValidState",
+  default: {
+    accountNumber: false,
+    bankingNumber: false,
+  },
+});
+
 export const MemberDataState = atom<Member>({
   key: "MemberDataState",
   default: {
@@ -45,4 +58,12 @@ export const MemberDataState = atom<Member>({
 export const ClickNavState = atom<ClickNav>({
   key: "ClickNavState",
   default: "account",
+});
+
+export const SocialLoginUserDataState = atom<SocialJoinUserData>({
+  key: "SocialLoginUserDataState",
+  default: {
+    name: "",
+    userUID: "",
+  },
 });

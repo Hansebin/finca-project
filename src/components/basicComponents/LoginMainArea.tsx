@@ -2,7 +2,11 @@ import React from "react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
 import { auth, signInWithEmailAndPassword } from "../../firebase";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { SocialLoginUserDataState } from "../../datas/recoilData";
+import { SocialJoinUserData } from "../../typeModel/JoinInputData";
 
 // styled-components
 const Box = styled.div`
@@ -21,7 +25,7 @@ const Box = styled.div`
 `;
 
 const Button = styled.button`
-  width: 200px;
+  width: 300px;
   height: 50px;
 
   font-size: 20px;
@@ -32,7 +36,8 @@ const Button = styled.button`
 
   border-radius: 7px;
 
-  margin-top: 20px;
+  margin-top: 10px;
+  margin-bottom: 30px;
 `;
 
 const Input = styled.input`
@@ -46,6 +51,9 @@ const LoginMainArea: React.FC = () => {
   // input에 입력된 아이디와 비밀번호 담긴 state
   const [emailId, setEmailId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+  const [socialLoginUserDate, setSocialLoginUserDate] =
+    useRecoilState<SocialJoinUserData>(SocialLoginUserDataState);
 
   const navigate = useNavigate();
 
@@ -69,6 +77,26 @@ const LoginMainArea: React.FC = () => {
       navigate(`/member/${userUID}`);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  // 구글 로그인
+  // 로그인 성공 후 회원 페이지가 아닌, 계좌 등록 페이지로 이동!
+  // 이름, 계좌번호(12자리), 뱅킹 번호(6자리) 설정 후 데이터 저장
+  const handleGoogleLogin = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      const data = await signInWithPopup(auth, provider);
+      const userData = data.user;
+
+      setSocialLoginUserDate({
+        name: userData.displayName,
+        userUID: userData.uid,
+      });
+
+      navigate(`/login/makeAccount`);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -101,17 +129,20 @@ const LoginMainArea: React.FC = () => {
               onChange={handleChange}
             ></Input>
           </div>
+          <Button type="submit">로그인</Button>
           <p className="text-base font-bold text-re-color-002">
             아이디가 없다면?{" "}
             <Link to="/join" className="underline">
               회원가입
             </Link>
           </p>
-          <Button type="submit">로그인</Button>
         </form>
-        <div className="flex flex-col justify-center items-center mt-10">
+        <div className="flex flex-col justify-center items-center mt-16">
           <p className="text-base font-bold text-gray-004 mb-2">소셜 로그인</p>
-          <button className="w-10 h-10 bg-re-color-002 rounded-full font-bold text-white text-xl mb-1">
+          <button
+            className="w-10 h-10 bg-re-color-002 rounded-full font-bold text-white text-xl mb-1"
+            onClick={handleGoogleLogin}
+          >
             G
           </button>
           <p className="text-xs font-bold text-re-color-002">구글</p>

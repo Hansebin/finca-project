@@ -16,9 +16,8 @@ const WhiteButton = styled.button`
 `;
 
 const GrayButton = styled(WhiteButton)`
-  background-color: #e8e8e8;
-
-  color: white;
+  color: #7966e4;
+  opacity: 0.5;
 `;
 // styled-components
 

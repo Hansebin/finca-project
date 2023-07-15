@@ -1,11 +1,18 @@
 import React from "react";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import { useRecoilState } from "recoil";
-import JoinInput from "./JoinInput";
-import { inputValueState, IsValidState } from "../../../datas/recoilData";
-import { InputData, InputDataIsValid } from "../../../typeModel/JoinInputData";
-import { auth, createUserWithEmailAndPassword } from "../../../firebase";
+import {
+  SocialLoginUserDataState,
+  inputValueState,
+  SocialIsValidState,
+} from "../../../datas/recoilData";
+import {
+  SocialJoinUserData,
+  InputData,
+  SocialInputDataIsValid,
+} from "../../../typeModel/JoinInputData";
+import SocialJoinInput from "./SocialJoinInput";
 import { db, collection, doc, setDoc } from "../../../firebase";
 
 // styled-components
@@ -18,8 +25,10 @@ const Box = styled.div`
 
   padding: 50px;
 
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 `;
@@ -38,8 +47,6 @@ const ActiveButton = styled.button`
 
   margin-top: 20px;
 `;
-// 모든 입력창이 조건에 맞게 되면 activeBtn을 사용한다. => 조건부 처리!
-// state로 true, false 값을 받아서 사용하는 것도 좋을듯?
 
 const InactiveButton = styled.button`
   width: 200px;
@@ -57,19 +64,19 @@ const InactiveButton = styled.button`
 `;
 // styled-components
 
-const JoinMainArea: React.FC = () => {
+const SocialAccountJoin: React.FC = () => {
   const navigate = useNavigate();
 
-  const [inputValue] = useRecoilState<InputData>(inputValueState);
+  const [socialLoginUserDate] = useRecoilState<SocialJoinUserData>(
+    SocialLoginUserDataState
+  );
 
-  const [isValid] = useRecoilState<InputDataIsValid>(IsValidState);
+  const [inputValue] = useRecoilState<InputData>(inputValueState);
+  const [isValid] = useRecoilState<SocialInputDataIsValid>(SocialIsValidState);
 
   const {
-    name,
     accountNumber,
     bankingNumber,
-    id,
-    password,
     totalPrice,
     expectSpending,
     expectIncome,
@@ -79,20 +86,10 @@ const JoinMainArea: React.FC = () => {
 
   const join = async () => {
     try {
-      const createdUser = await createUserWithEmailAndPassword(
-        auth,
-        id,
-        password
-      );
-
-      const userUID = createdUser.user.uid;
-
       const userData = {
-        name: name,
+        name: socialLoginUserDate.name,
         accountNumber: accountNumber,
         bankingNumber: bankingNumber,
-        id: id,
-        password: password,
         totalPrice: totalPrice,
         expectSpending: expectSpending,
         expectIncome: expectIncome,
@@ -100,10 +97,13 @@ const JoinMainArea: React.FC = () => {
         accountBookList: accountBookList,
       };
 
-      await setDoc(doc(collection(db, "users"), userUID), userData);
+      await setDoc(
+        doc(collection(db, "users"), socialLoginUserDate.userUID),
+        userData
+      );
 
-      alert("회원가입 성공!");
-      navigate("/login");
+      alert("계좌 생성 성공!");
+      navigate(`/member/${socialLoginUserDate.userUID}`);
     } catch (error) {
       console.error("회원가입 중 오류가 발생했습니다", error);
       alert(error);
@@ -115,7 +115,7 @@ const JoinMainArea: React.FC = () => {
     join();
   };
 
-  const isAllValid = (obj: InputDataIsValid) => {
+  const isAllValid = (obj: SocialInputDataIsValid) => {
     return Object.values(obj).every((value) => value === true);
   };
 
@@ -126,18 +126,19 @@ const JoinMainArea: React.FC = () => {
           className="flex flex-col justify-center items-center"
           onSubmit={handleSubmit}
         >
-          <JoinInput title="이름" text="한글, 영문" data="name" />
-          <JoinInput
+          <SocialJoinInput
             title="대표 계좌"
             text="12자리 숫자"
             data="accountNumber"
           />
-          <JoinInput title="뱅킹 번호" text="6자리 숫자" data="bankingNumber" />
-          <JoinInput title="아이디" text="* 이메일만 가능" data="id" />
-          <JoinInput title="비밀번호" text="숫자, 특수 문자" data="password" />
+          <SocialJoinInput
+            title="뱅킹 번호"
+            text="6자리 숫자"
+            data="bankingNumber"
+          />
           {!isAllValid(isValid) ? (
             <InactiveButton type="submit" disabled>
-              회원가입
+              계좌 생성
             </InactiveButton>
           ) : (
             <ActiveButton type="submit">회원가입</ActiveButton>
@@ -148,4 +149,4 @@ const JoinMainArea: React.FC = () => {
   );
 };
 
-export default JoinMainArea;
+export default SocialAccountJoin;
