@@ -3,7 +3,13 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
-import { auth, signInWithEmailAndPassword } from "../../firebase";
+import {
+  db,
+  doc,
+  getDoc,
+  auth,
+  signInWithEmailAndPassword,
+} from "../../firebase";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { SocialLoginUserDataState } from "../../datas/recoilData";
 import { SocialJoinUserData } from "../../typeModel/JoinInputData";
@@ -76,25 +82,38 @@ const LoginMainArea: React.FC = () => {
       const userUID = data.user.uid;
       navigate(`/member/${userUID}`);
     } catch (error) {
+      alert("유효하지 않은 아이디와 비밀번호 입니다. 다시 입력해주새요!");
+      setEmailId("");
+      setPassword("");
       console.log(error);
     }
   };
 
   // 구글 로그인
-  // 로그인 성공 후 회원 페이지가 아닌, 계좌 등록 페이지로 이동!
-  // 이름, 계좌번호(12자리), 뱅킹 번호(6자리) 설정 후 데이터 저장
   const handleGoogleLogin = async () => {
     try {
       const provider = new GoogleAuthProvider();
       const data = await signInWithPopup(auth, provider);
       const userData = data.user;
+      const userUID = userData.uid;
 
       setSocialLoginUserDate({
         name: userData.displayName,
-        userUID: userData.uid,
+        userUID: userUID,
       });
 
-      navigate(`/login/makeAccount`);
+      const docRef = doc(db, "users", userUID);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const { accountNumber } = docSnap.data();
+
+        if (accountNumber !== 0) {
+          navigate(`/member/${userUID}`);
+        } else {
+          navigate(`/login/makeAccount`);
+        }
+      }
     } catch (error) {
       console.error(error);
     }
@@ -112,10 +131,12 @@ const LoginMainArea: React.FC = () => {
             <Input
               type="text"
               required
+              autoComplete="off"
               className="bg-re-color-001 w-230 font-medium text-lg"
               placeholder="아이디를 입력하세요."
               name="emailId"
               onChange={handleChange}
+              value={emailId}
             ></Input>
           </div>
           <div className="flex flex-row justify-between items-center bg-re-color-001 w-24 rounded-lg p-3 mb-6">
@@ -123,10 +144,12 @@ const LoginMainArea: React.FC = () => {
             <Input
               type="password"
               required
+              autoComplete="off"
               className="bg-re-color-001 w-220 text-lg font-medium"
               placeholder="비밀번호를 입력하세요."
               name="password"
               onChange={handleChange}
+              value={password}
             ></Input>
           </div>
           <Button type="submit">로그인</Button>

@@ -23,6 +23,27 @@ const WhiteButton = styled.button<WhiteButtonProps>`
 
   transition: all 0.3s ease-in-out;
 `;
+
+const LogOutButton = styled.button`
+  width: 200px;
+  height: 50px;
+  background-color: #7966e4;
+  border-radius: 10px;
+
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+
+  user-select: none;
+
+  opacity: 0.3;
+
+  transition: all 0.1s ease-in-out;
+
+  &:hover {
+    opacity: 1;
+  }
+`;
 // styled-components
 
 const MemberSideNav: React.FC = () => {
@@ -41,7 +62,11 @@ const MemberSideNav: React.FC = () => {
       <div className="flex flex-col gap-y-5">
         <WhiteButton
           name="account"
-          active={clickNav === "account"}
+          active={
+            clickNav === "account" ||
+            clickNav === "remit" ||
+            clickNav === "recharge"
+          }
           onClick={() => handleButtonClick("account")}
         >
           계좌
@@ -60,9 +85,10 @@ const MemberSideNav: React.FC = () => {
         >
           지출차트
         </WhiteButton>
+        {/* 로그아웃 기능 구현! */}
+        <LogOutButton>로그아웃</LogOutButton>
       </div>
     </div>
   );
 };
-
 export default MemberSideNav;

@@ -1,11 +1,16 @@
 import React from "react";
 import { useRecoilState } from "recoil";
-import { MemberDataState } from "../../../datas/recoilData";
-import { Member } from "../../../typeModel/member";
+import { MemberDataState, ClickNavState } from "../../../datas/recoilData";
+import { Member, ClickNav } from "../../../typeModel/member";
 import MemberPageAccountDetails from "./MemberPageAccountDetails";
 
 const MemberAccount: React.FC = () => {
   const [memberData] = useRecoilState<Member>(MemberDataState);
+  const [clickNav, setClickNav] = useRecoilState<ClickNav>(ClickNavState);
+
+  const handleButtonClick = (name: string) => {
+    setClickNav(name);
+  };
 
   return (
     <>
@@ -24,10 +29,16 @@ const MemberAccount: React.FC = () => {
         </span>
       </p>
       <div className="flex flex-row gap-x-4 mt-5">
-        <button className="basis-1/2 h-10 bg-re-color-001 rounded-md text-xl font-bold text-re-color-004">
+        <button
+          className="basis-1/2 h-10 bg-re-color-001 rounded-md text-xl font-bold text-re-color-004"
+          onClick={() => handleButtonClick("remit")}
+        >
           송금
         </button>
-        <button className="basis-1/2 h-10 bg-re-color-001 rounded-md text-xl font-bold text-re-color-004">
+        <button
+          className="basis-1/2 h-10 bg-re-color-001 rounded-md text-xl font-bold text-re-color-004"
+          onClick={() => handleButtonClick("recharge")}
+        >
           충전
         </button>
       </div>

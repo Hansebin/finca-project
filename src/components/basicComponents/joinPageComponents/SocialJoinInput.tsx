@@ -98,6 +98,7 @@ const SocialJoinInput: React.FC<OwnProps> = (props) => {
         <InputTitle>{props.title}</InputTitle>
         <Input
           required
+          autoComplete="off"
           placeholder={props.text}
           name={props.data}
           value={inputValue[props.data as keyof InputDataWithoutDetails] || ""}

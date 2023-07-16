@@ -10,6 +10,8 @@ import { Member, ClickNav } from "../typeModel/member";
 import MemberAccount from "../components/basicComponents/memberPageComponents/MemberAccount";
 import MemberAccountBook from "../components/basicComponents/memberPageComponents/MemberAccountBook";
 import MemberChart from "../components/basicComponents/memberPageComponents/MemberChart";
+import Recharge from "../components/basicComponents/memberPageComponents/Recharge";
+import Remit from "../components/basicComponents/memberPageComponents/Remit";
 
 const Container = styled.div`
   display: flex;
@@ -91,8 +93,12 @@ const MemberPage: React.FC = () => {
           <MemberAccount />
         ) : clickNav === "accountBook" ? (
           <MemberAccountBook />
-        ) : (
+        ) : clickNav === "chart" ? (
           <MemberChart />
+        ) : clickNav === "remit" ? (
+          <Remit />
+        ) : (
+          <Recharge />
         )}
       </Box>
     </Container>
