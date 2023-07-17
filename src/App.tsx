@@ -20,7 +20,7 @@ const App: React.FC = () => {
                 path="/login/makeAccount"
                 element={<SocialJoinPage />}
               ></Route>
-              <Route path="/member/:userUID" element={<MemberPage />}></Route>
+              <Route path="/memberPage" element={<MemberPage />}></Route>
             </Routes>
           </BrowserRouter>
         </RecoilRoot>

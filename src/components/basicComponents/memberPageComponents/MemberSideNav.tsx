@@ -1,8 +1,10 @@
 import React from "react";
 import { useRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MemberDataState, ClickNavState } from "../../../datas/recoilData";
 import { Member, ClickNav } from "../../../typeModel/member";
+import { auth, signOut } from "../../../firebase";
 
 interface WhiteButtonProps {
   active: boolean;
@@ -47,11 +49,23 @@ const LogOutButton = styled.button`
 // styled-components
 
 const MemberSideNav: React.FC = () => {
+  const navigate = useNavigate();
+
   const [memberData] = useRecoilState<Member>(MemberDataState);
   const [clickNav, setClickNav] = useRecoilState<ClickNav>(ClickNavState);
 
   const handleButtonClick = (name: string) => {
     setClickNav(name);
+  };
+
+  const logOut = async () => {
+    try {
+      await signOut(auth);
+      sessionStorage.clear();
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -85,8 +99,7 @@ const MemberSideNav: React.FC = () => {
         >
           지출차트
         </WhiteButton>
-        {/* 로그아웃 기능 구현! */}
-        <LogOutButton>로그아웃</LogOutButton>
+        <LogOutButton onClick={logOut}>로그아웃</LogOutButton>
       </div>
     </div>
   );

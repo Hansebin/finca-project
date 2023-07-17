@@ -1,5 +1,6 @@
 import { Nonmember } from "../typeModel/nonmember";
 
+// 첫 시작 페이지에서 보여주는 비회원 데이터
 export const nonmember: Nonmember = {
   name: "홍길동",
   accountNumber: 123456789012,

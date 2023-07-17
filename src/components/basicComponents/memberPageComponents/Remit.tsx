@@ -63,7 +63,7 @@ const Remit: React.FC = () => {
             </button>
           </div>
         </div>
-        <button className="w-full h-14 bg-re-color-002 text-white font-bold text-3xl rounded-lg mt-20">
+        <button className="w-full h-14 bg-re-color-002 text-white font-bold text-3xl rounded-lg mt-16">
           송금하기
         </button>
       </form>

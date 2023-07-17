@@ -1,6 +1,5 @@
 import React from "react";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { db, doc, getDoc } from "../firebase";
 import styled from "styled-components";
@@ -39,12 +38,18 @@ const MemberPage: React.FC = () => {
   const [memberData, setMemberData] = useRecoilState<Member>(MemberDataState);
   const [clickNav, setClickNav] = useRecoilState<ClickNav>(ClickNavState);
 
-  const location = useLocation();
-  const userUID = location.pathname.split("/")[2];
-
   const getUserData = async () => {
     try {
-      const docRef = doc(db, "users", userUID);
+      const userUID = sessionStorage.getItem("loginData");
+      let uid = "";
+
+      if (userUID !== null) {
+        uid = JSON.parse(userUID).uid;
+      } else {
+        uid = "";
+      }
+
+      const docRef = doc(db, "users", uid);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -58,6 +63,7 @@ const MemberPage: React.FC = () => {
           accountBookList,
         } = docSnap.data();
 
+        // 📍 불러온 데이터 전역 상태로 관리 => 로그아웃 하면 초기화시키기
         setMemberData({
           name: name,
           accountNumber: accountNumber,
@@ -67,8 +73,6 @@ const MemberPage: React.FC = () => {
           expectIncome: expectIncome,
           accountBookList: accountBookList,
         });
-
-        console.log("회원 데이터 불러오기 성공!");
       } else {
         console.log("No such document!");
       }
@@ -80,10 +84,6 @@ const MemberPage: React.FC = () => {
   useEffect(() => {
     getUserData();
   }, []);
-
-  // 전역 상태 관리로 현재 어떤 메뉴에 들어와있는지 상태 확인
-  // 전역 상태 관리에 따라서 조건부 렌더링 -> 계좌, 가계부, 차트 페이지
-  // 메뉴 버튼 클릭하면 전역 상태 관리 변경 -> 이에 따라 자동으로 조건부 렌더링 실시
 
   return (
     <Container>
@@ -106,6 +106,3 @@ const MemberPage: React.FC = () => {
 };
 
 export default MemberPage;
-
-// 첫 로드 시에는 account 컴포넌트
-// 클릭하면 setState에 의해서 조건부 렌더링을 한다.

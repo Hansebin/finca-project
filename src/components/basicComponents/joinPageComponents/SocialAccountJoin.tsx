@@ -103,7 +103,7 @@ const SocialAccountJoin: React.FC = () => {
       );
 
       alert("계좌 생성 성공!");
-      navigate(`/member/${socialLoginUserDate.userUID}`);
+      navigate(`/memberPage`);
     } catch (error) {
       console.error("회원가입 중 오류가 발생했습니다", error);
       alert(error);

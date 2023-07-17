@@ -7,6 +7,7 @@ import {
 } from "../typeModel/JoinInputData";
 import { Member, ClickNav } from "../typeModel/member";
 
+// 1. 회원가입 전 회원 데이터 초기화
 export const inputValueState = atom<InputData>({
   key: "inputValueState",
   default: {
@@ -23,6 +24,7 @@ export const inputValueState = atom<InputData>({
   },
 });
 
+// 2-1. 유효성 검사 항목 - 일반 회원가입
 export const IsValidState = atom<InputDataIsValid>({
   key: "isValidState",
   default: {
@@ -34,6 +36,7 @@ export const IsValidState = atom<InputDataIsValid>({
   },
 });
 
+// 2-2. 유효성 검사 항목 - 소셜 로그인
 export const SocialIsValidState = atom<SocialInputDataIsValid>({
   key: "SocialIsValidState",
   default: {
@@ -42,6 +45,16 @@ export const SocialIsValidState = atom<SocialInputDataIsValid>({
   },
 });
 
+// 3. 소셜 로그인시 이름과 uid 가져오기
+export const SocialLoginUserDataState = atom<SocialJoinUserData>({
+  key: "SocialLoginUserDataState",
+  default: {
+    name: "",
+    userUID: "",
+  },
+});
+
+// 4. 로그인 후 회원 페이지에서 가져오는 회원 데이터 -> uid로 조회 후 set
 export const MemberDataState = atom<Member>({
   key: "MemberDataState",
   default: {
@@ -55,15 +68,8 @@ export const MemberDataState = atom<Member>({
   },
 });
 
+// 5. 메뉴 클릭 상태
 export const ClickNavState = atom<ClickNav>({
   key: "ClickNavState",
   default: "account",
-});
-
-export const SocialLoginUserDataState = atom<SocialJoinUserData>({
-  key: "SocialLoginUserDataState",
-  default: {
-    name: "",
-    userUID: "",
-  },
 });

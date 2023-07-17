@@ -1,10 +1,9 @@
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
+  signOut,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -36,4 +35,5 @@ export {
   doc,
   collection,
   getDoc,
+  signOut,
 };

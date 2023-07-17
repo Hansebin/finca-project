@@ -54,14 +54,13 @@ const Input = styled.input`
 // styled-components
 
 const LoginMainArea: React.FC = () => {
-  // input에 입력된 아이디와 비밀번호 담긴 state
+  const navigate = useNavigate();
+
   const [emailId, setEmailId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const [socialLoginUserDate, setSocialLoginUserDate] =
     useRecoilState<SocialJoinUserData>(SocialLoginUserDataState);
-
-  const navigate = useNavigate();
 
   // 입력한 텍스트 실시간 setState -> n초 후 반영될 수 있도록 최적화?
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,13 +73,14 @@ const LoginMainArea: React.FC = () => {
     }
   };
 
-  // 로그인 버튼 클릭하면 로그인 작업 실행 + 회원 페이지(계좌, 가계부, 차트)로 이동 -> 회원 uid 가져와서 url에 표기하기!
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const data = await signInWithEmailAndPassword(auth, emailId, password);
       const userUID = data.user.uid;
-      navigate(`/member/${userUID}`);
+      const loginData = { id: emailId, uid: userUID };
+      sessionStorage.setItem("loginData", JSON.stringify(loginData));
+      navigate(`/memberPage`);
     } catch (error) {
       alert("유효하지 않은 아이디와 비밀번호 입니다. 다시 입력해주새요!");
       setEmailId("");
@@ -89,13 +89,13 @@ const LoginMainArea: React.FC = () => {
     }
   };
 
-  // 구글 로그인
   const handleGoogleLogin = async () => {
     try {
       const provider = new GoogleAuthProvider();
       const data = await signInWithPopup(auth, provider);
       const userData = data.user;
       const userUID = userData.uid;
+      const userId = userData.email;
 
       setSocialLoginUserDate({
         name: userData.displayName,
@@ -106,13 +106,11 @@ const LoginMainArea: React.FC = () => {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        const { accountNumber } = docSnap.data();
-
-        if (accountNumber !== 0) {
-          navigate(`/member/${userUID}`);
-        } else {
-          navigate(`/login/makeAccount`);
-        }
+        const loginData = { id: userId, uid: userUID };
+        sessionStorage.setItem("loginData", JSON.stringify(loginData));
+        navigate(`/memberPage`);
+      } else {
+        navigate(`/login/makeAccount`);
       }
     } catch (error) {
       console.error(error);
