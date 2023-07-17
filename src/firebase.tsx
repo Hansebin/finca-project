@@ -14,12 +14,12 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD1Y8rhHEFvsqSUMEYhRDLJ0yW521R8IoQ",
-  authDomain: "finca-project.firebaseapp.com",
-  projectId: "finca-project",
-  storageBucket: "finca-project.appspot.com",
-  messagingSenderId: "162401457799",
-  appId: "1:162401457799:web:287b5c5cb28cb444a44a22",
+  apiKey: import.meta.env.VITE_APIKEY,
+  authDomain: import.meta.env.VITE_AUTHDOMAIN,
+  projectId: import.meta.env.VITE_PROJECTID,
+  storageBucket: import.meta.env.VITE_STORAGEBUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGINGSENDERID,
+  appId: import.meta.env.VITE_APPID,
 };
 
 const app = initializeApp(firebaseConfig);
