@@ -11,6 +11,9 @@ import {
   doc,
   setDoc,
   getDoc,
+  query,
+  where,
+  getDocs,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -36,4 +39,7 @@ export {
   collection,
   getDoc,
   signOut,
+  query,
+  where,
+  getDocs,
 };
