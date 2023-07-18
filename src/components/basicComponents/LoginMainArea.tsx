@@ -9,8 +9,6 @@ import {
   getDoc,
   auth,
   signInWithEmailAndPassword,
-  setPersistence,
-  browserSessionPersistence,
 } from "../../firebase";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { SocialLoginUserDataState } from "../../datas/recoilData";
@@ -79,7 +77,6 @@ const LoginMainArea: React.FC = () => {
     e.preventDefault();
     try {
       const data = await signInWithEmailAndPassword(auth, emailId, password);
-      await setPersistence(auth, browserSessionPersistence);
       const userUID = data.user.uid;
       const loginData = { id: emailId, uid: userUID };
       sessionStorage.setItem("loginData", JSON.stringify(loginData));
