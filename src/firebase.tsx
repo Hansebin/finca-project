@@ -4,6 +4,8 @@ import {
   signOut,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  setPersistence,
+  browserSessionPersistence,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -36,4 +38,6 @@ export {
   collection,
   getDoc,
   signOut,
+  setPersistence,
+  browserSessionPersistence,
 };
