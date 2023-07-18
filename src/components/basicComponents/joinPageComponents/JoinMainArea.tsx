@@ -101,7 +101,6 @@ const JoinMainArea: React.FC = () => {
       };
 
       await setDoc(doc(collection(db, "users"), userUID), userData);
-
       alert("회원가입 성공!");
       navigate("/login");
     } catch (error) {

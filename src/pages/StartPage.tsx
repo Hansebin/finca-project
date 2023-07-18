@@ -15,10 +15,12 @@ const Container = styled.div`
 
 const StartPage: React.FC = () => {
   return (
-    <Container>
-      <SideNav />
-      <AccountMainArea />
-    </Container>
+    <>
+      <Container>
+        <SideNav />
+        <AccountMainArea />
+      </Container>
+    </>
   );
 };
 

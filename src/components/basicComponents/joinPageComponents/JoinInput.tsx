@@ -15,7 +15,6 @@ import {
   isValidEmail,
   isValidPassword,
 } from "./validItemFun";
-
 // styled-components
 const InputTitle = styled.p`
   font-size: 20px;

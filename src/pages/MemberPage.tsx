@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { db, doc, getDoc } from "../firebase";
 import styled from "styled-components";
@@ -11,6 +11,7 @@ import MemberAccountBook from "../components/basicComponents/memberPageComponent
 import MemberChart from "../components/basicComponents/memberPageComponents/MemberChart";
 import Recharge from "../components/basicComponents/memberPageComponents/Recharge";
 import Remit from "../components/basicComponents/memberPageComponents/Remit";
+import Spinner from "../components/spinnerComponent/Spinner";
 
 const Container = styled.div`
   display: flex;
@@ -37,9 +38,11 @@ const Box = styled.div`
 const MemberPage: React.FC = () => {
   const [memberData, setMemberData] = useRecoilState<Member>(MemberDataState);
   const [clickNav, setClickNav] = useRecoilState<ClickNav>(ClickNavState);
+  const [loading, setLoading] = useState<boolean | null>(null);
 
   const getUserData = async () => {
     try {
+      setLoading(true);
       const userUID = sessionStorage.getItem("loginData");
       let uid = "";
 
@@ -73,6 +76,8 @@ const MemberPage: React.FC = () => {
           expectIncome: expectIncome,
           accountBookList: accountBookList,
         });
+
+        setLoading(false);
       } else {
         console.log("No such document!");
       }
@@ -86,22 +91,25 @@ const MemberPage: React.FC = () => {
   }, []);
 
   return (
-    <Container>
-      <MemberSideNav />
-      <Box>
-        {clickNav === "account" ? (
-          <MemberAccount />
-        ) : clickNav === "accountBook" ? (
-          <MemberAccountBook />
-        ) : clickNav === "chart" ? (
-          <MemberChart />
-        ) : clickNav === "remit" ? (
-          <Remit />
-        ) : (
-          <Recharge />
-        )}
-      </Box>
-    </Container>
+    <>
+      {loading ? <Spinner /> : ""}
+      <Container>
+        <MemberSideNav />
+        <Box>
+          {clickNav === "account" ? (
+            <MemberAccount />
+          ) : clickNav === "accountBook" ? (
+            <MemberAccountBook />
+          ) : clickNav === "chart" ? (
+            <MemberChart />
+          ) : clickNav === "remit" ? (
+            <Remit />
+          ) : (
+            <Recharge />
+          )}
+        </Box>
+      </Container>
+    </>
   );
 };
 

@@ -49,18 +49,18 @@ const Remit: React.FC = () => {
             카데고리 선택
           </p>
           <div className="flex flex-row justify-between">
-            <button className="py-1.5 px-7 bg-re-color-002 text-white rounded-full font-bold">
+            <div className="py-1.5 px-6 bg-re-color-002 text-white rounded-full font-bold cursor-pointer">
               식사
-            </button>
-            <button className="py-1.5 px-7 bg-re-color-002 text-white rounded-full font-bold">
+            </div>
+            <div className="py-1.5 px-6 bg-re-color-002 text-white rounded-full font-bold cursor-pointer">
               여가
-            </button>
-            <button className="py-1.5 px-7 bg-re-color-002 text-white rounded-full font-bold">
+            </div>
+            <div className="py-1.5 px-6 bg-re-color-002 text-white rounded-full font-bold cursor-pointer">
               쇼핑
-            </button>
-            <button className="py-1.5 px-7 bg-re-color-002 text-white rounded-full font-bold">
+            </div>
+            <div className="py-1.5 px-6 bg-re-color-002 text-white rounded-full font-bold cursor-pointer">
               기타
-            </button>
+            </div>
           </div>
         </div>
         <button className="w-full h-14 bg-re-color-002 text-white font-bold text-3xl rounded-lg mt-16">

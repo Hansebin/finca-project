@@ -73,3 +73,9 @@ export const ClickNavState = atom<ClickNav>({
   key: "ClickNavState",
   default: "account",
 });
+
+// 6. 로딩 상태
+export const LoadingState = atom<boolean | null>({
+  key: "LoadingState",
+  default: null,
+});
