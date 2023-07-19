@@ -2,10 +2,23 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { MemberDataState } from "../../../datas/recoilData";
+import { MemberDataState, ClickCategoryState } from "../../../datas/recoilData";
 import { Member } from "../../../typeModel/member";
 import { RemitInputValue } from "../../../typeModel/RemitInputData";
-import { db, query, where, getDocs, collection } from "../../../firebase";
+import {
+  db,
+  query,
+  where,
+  getDocs,
+  collection,
+  doc,
+  getDoc,
+  updateDoc,
+} from "../../../firebase";
+
+interface categoryButtonProps {
+  active: boolean;
+}
 
 // styled-components
 const InputTitle = styled.p`
@@ -24,16 +37,56 @@ const Input = styled.input`
     outline: none;
   }
 `;
+
+const CategoryButton = styled.div<categoryButtonProps>`
+  background-color: ${(props) => (props.active ? "#36338C" : "#7966e4")};
+`;
+
+const ActiveButton = styled.button`
+  width: 100%;
+  height: 70px;
+
+  background-color: #7966e4;
+  color: white;
+
+  font-weight: 700;
+  font-size: 30px;
+
+  border-radius: 10px;
+
+  margin-top: 80px;
+`;
+
+const InactiveButton = styled.button`
+  width: 100%;
+  height: 70px;
+
+  background-color: #e8e8e8;
+  color: white;
+
+  font-weight: 700;
+  font-size: 30px;
+
+  border-radius: 10px;
+
+  margin-top: 80px;
+`;
 // styled-components
 
 const Remit: React.FC = () => {
   const [remitInputValue, setRemitInputValue] = useState<RemitInputValue>({
-    remitAccountNumber: 0,
-    remitPrice: 0,
+    remitAccountNumber: "",
+    remitPrice: "",
     remitMemo: "",
     category: "",
   });
   const [memberData] = useRecoilState<Member>(MemberDataState);
+  const [ClickCategory, setClickCategory] =
+    useRecoilState<string>(ClickCategoryState);
+
+  const handleButtonClick = (name: string) => {
+    setClickCategory(name);
+  };
 
   // const 입력값 전달 받고 저장할 데이터 형식 생성하는 함수 = () => {}
   // remitInputValue = 사용자에게 입력 받은 송금 관련 데이터
@@ -43,8 +96,6 @@ const Remit: React.FC = () => {
       ...prevInputValues,
       [name]: value,
     }));
-
-    console.log(remitInputValue);
   };
 
   const handleCategorySelection = (category: string) => {
@@ -52,9 +103,12 @@ const Remit: React.FC = () => {
       ...prevInputValues,
       category: category,
     }));
-
-    console.log(remitInputValue);
   };
+
+  // 모든 항목 입력/선택했는지
+  const isAnyValueEmpty = Object.values(remitInputValue).some(
+    (value) => value === ""
+  );
 
   // const 전달 받을 계좌가 존재하는지 여부 판단하는 함수 = () => {}
   const existAccountNumber = async () => {
@@ -69,7 +123,18 @@ const Remit: React.FC = () => {
 
   // const 송금할 계좌의 잔액이 충분한지 판단하는 함수 = () => {}
   const enoughPrice = async () => {
-    return memberData.totalPrice > remitInputValue.remitPrice;
+    return memberData.totalPrice >= Number(remitInputValue.remitPrice);
+  };
+
+  // input창 초기화
+  const clearInput = () => {
+    setRemitInputValue({
+      remitAccountNumber: "",
+      remitPrice: "",
+      remitMemo: "",
+      category: "",
+    });
+    handleButtonClick("미선택");
   };
 
   // const 송금하기 함수 = () => {}
@@ -83,22 +148,85 @@ const Remit: React.FC = () => {
     ]);
 
     if (isExistAccountNumber) {
-      alert("존재하는 계좌!");
       if (isEnoughPrice) {
-        alert("잔액 충분!");
-        // ... 1. 송금할 계좌의 거래 내역에 listData 추가
-        // ... 2. 송금할 계좌의 잔액 수정
-        // ... 3. 보낸 계좌의 거래 내역에 listData 추가 -> 송금과는 다르게 충전으로
-        // ... 4. 계좌 페이지 처음으로 이동
+        // 1. 송금한 계좌 데이터 업데이트
+        const userUID = sessionStorage.getItem("loginData");
+        let uid = "";
+
+        if (userUID !== null) {
+          uid = JSON.parse(userUID).uid;
+        } else {
+          uid = "";
+        }
+
+        const docRef = doc(db, "users", uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const { accountList, totalPrice } = docSnap.data();
+
+          await updateDoc(docRef, {
+            accountList: [
+              ...accountList,
+              {
+                category: remitInputValue.category,
+                memo: remitInputValue.remitMemo,
+                price: -remitInputValue.remitPrice,
+                date: new Date().toDateString(),
+              },
+            ],
+          });
+
+          await updateDoc(docRef, {
+            totalPrice: totalPrice - Number(remitInputValue.remitPrice),
+          });
+        } else {
+          return console.log("No such document!");
+        }
+
+        // 2. 보낸 계좌 데이터 업데이트
+        const q = query(
+          collection(db, "users"),
+          where("accountNumber", "==", remitInputValue.remitAccountNumber)
+        );
+
+        const querySnapshot = await getDocs(q);
+        const chargeAccountUid = querySnapshot.docs[0].id;
+
+        const chargeDocRef = doc(db, "users", chargeAccountUid);
+        const chargeDocSnap = await getDoc(chargeDocRef);
+
+        if (chargeDocSnap.exists()) {
+          const { accountList, totalPrice } = chargeDocSnap.data();
+
+          await updateDoc(chargeDocRef, {
+            accountList: [
+              ...accountList,
+              {
+                category: "충전",
+                memo: "충전",
+                price: +remitInputValue.remitPrice,
+                date: new Date().toDateString(),
+              },
+            ],
+          });
+
+          await updateDoc(chargeDocRef, {
+            totalPrice: totalPrice + Number(remitInputValue.remitPrice),
+          });
+        } else {
+          return console.log("No such document!");
+        }
+
+        alert("송금 완료!");
+        location.reload();
       } else {
-        alert("잔액 부족 ㅜㅜ");
-        // ... 잔액 부족 에러 메시지 띄우기
-        // ... 모든 input value 빈 문자열로 초기화
+        alert("잔액이 부족해 송금이 불가능합니다.");
+        clearInput();
       }
     } else {
-      alert("존재하지 않는 계좌 ㅠㅜ");
-      // ... 존재하지 않는 계좌 번호 에러 메시지 띄우기
-      // ... 모든 input value 빈 문자열로 초기화
+      alert("존재하지 않는 계좌 번호입니다. 올바른 계좌 번호를 입력해주세요.");
+      clearInput();
     }
   };
 
@@ -144,35 +272,53 @@ const Remit: React.FC = () => {
             카데고리 선택
           </p>
           <div className="flex flex-row justify-between">
-            <div
-              className="py-1.5 px-6 bg-re-color-002 text-white rounded-full font-bold cursor-pointer"
-              onClick={() => handleCategorySelection("식사")}
+            <CategoryButton
+              className="py-1.5 px-6 text-white rounded-full font-bold cursor-pointer"
+              active={ClickCategory === "식사"}
+              onClick={() => {
+                handleCategorySelection("식사");
+                handleButtonClick("식사");
+              }}
             >
               식사
-            </div>
-            <div
-              className="py-1.5 px-6 bg-re-color-002 text-white rounded-full font-bold cursor-pointer"
-              onClick={() => handleCategorySelection("여가")}
+            </CategoryButton>
+            <CategoryButton
+              className="py-1.5 px-6 text-white rounded-full font-bold cursor-pointer"
+              active={ClickCategory === "여가"}
+              onClick={() => {
+                handleCategorySelection("여가");
+                handleButtonClick("여가");
+              }}
             >
               여가
-            </div>
-            <div
-              className="py-1.5 px-6 bg-re-color-002 text-white rounded-full font-bold cursor-pointer"
-              onClick={() => handleCategorySelection("쇼핑")}
+            </CategoryButton>
+            <CategoryButton
+              className="py-1.5 px-6 text-white rounded-full font-bold cursor-pointer"
+              active={ClickCategory === "쇼핑"}
+              onClick={() => {
+                handleCategorySelection("쇼핑");
+                handleButtonClick("쇼핑");
+              }}
             >
               쇼핑
-            </div>
-            <div
+            </CategoryButton>
+            <CategoryButton
               className="py-1.5 px-6 bg-re-color-002 text-white rounded-full font-bold cursor-pointer"
-              onClick={() => handleCategorySelection("기타")}
+              active={ClickCategory === "기타"}
+              onClick={() => {
+                handleCategorySelection("기타");
+                handleButtonClick("기타");
+              }}
             >
               기타
-            </div>
+            </CategoryButton>
           </div>
         </div>
-        <button className="w-full h-14 bg-re-color-002 text-white font-bold text-3xl rounded-lg mt-16">
-          송금하기
-        </button>
+        {isAnyValueEmpty ? (
+          <InactiveButton disabled>송금하기</InactiveButton>
+        ) : (
+          <ActiveButton>송금하기</ActiveButton>
+        )}
       </form>
     </>
   );

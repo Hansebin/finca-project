@@ -79,3 +79,9 @@ export const LoadingState = atom<boolean | null>({
   key: "LoadingState",
   default: null,
 });
+
+// 7. 송금하기 카테고리 클릭 상태
+export const ClickCategoryState = atom<string>({
+  key: "ClickCategoryState",
+  default: "미선택",
+});

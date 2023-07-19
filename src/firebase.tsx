@@ -14,6 +14,7 @@ import {
   query,
   where,
   getDocs,
+  updateDoc,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -42,4 +43,5 @@ export {
   query,
   where,
   getDocs,
+  updateDoc,
 };
