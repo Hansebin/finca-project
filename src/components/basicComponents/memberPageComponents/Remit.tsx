@@ -204,7 +204,7 @@ const Remit: React.FC = () => {
               ...accountList,
               {
                 category: "충전",
-                memo: "충전",
+                memo: "충전(채우기)",
                 price: +remitInputValue.remitPrice,
                 date: new Date().toDateString(),
               },
