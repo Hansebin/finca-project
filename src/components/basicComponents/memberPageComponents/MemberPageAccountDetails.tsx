@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { MemberDataState } from "../../../datas/recoilData";
 import { Member } from "../../../typeModel/member";
 import styled from "styled-components";
+import Pagination from "../../paginationComponent/pagination";
 
 const AccountDetailContainer = styled.div`
   display: flex;
@@ -29,10 +30,26 @@ const AccountDetailBox = styled.div`
 const MemberPageAccountDetails: React.FC = () => {
   const [memberData] = useRecoilState<Member>(MemberDataState);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
+  const totalPages = Math.ceil(memberData.accountList.length / itemsPerPage);
+  const pageRangeDisplayed = 5;
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
   const accountDetailsList = () => {
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentAccountList = memberData.accountList.slice(
+      indexOfFirstItem,
+      indexOfLastItem
+    );
+
     return (
       <>
-        {memberData.accountList.map((Detail, index) => (
+        {currentAccountList.map((Detail, index) => (
           <AccountDetailBox key={index}>
             <div className="flex flex-row items-center">
               <p className="py-2.5 px-3 bg-re-color-003 text-white rounded-full text-lg font-bold mr-2">
@@ -57,16 +74,29 @@ const MemberPageAccountDetails: React.FC = () => {
   };
 
   return (
-    <div className="mt-10">
-      <p className="mb-5 text-sm font-bold text-gray-002">내역 확인</p>
-      {memberData.accountList.length === 0 ? (
-        <div className="w-full text-center mt-21">
-          <p className="font-bold text-xl text-gray-003">내역이 없습니다.</p>
-        </div>
-      ) : (
-        <AccountDetailContainer>{accountDetailsList()}</AccountDetailContainer>
-      )}
-    </div>
+    <>
+      <div className="mt-10">
+        <p className="mb-5 text-sm font-bold text-gray-002">내역 확인</p>
+        {memberData.accountList.length === 0 ? (
+          <div className="w-full text-center mt-21">
+            <p className="font-bold text-xl text-gray-003">내역이 없습니다.</p>
+          </div>
+        ) : (
+          <AccountDetailContainer>
+            {accountDetailsList()}
+          </AccountDetailContainer>
+        )}
+        {totalPages > 1 && (
+          <Pagination
+            activePage={currentPage}
+            totalItemsCount={memberData.accountList.length}
+            itemsCountPerPage={itemsPerPage}
+            pageRangeDisplayed={pageRangeDisplayed}
+            onChange={handlePageChange}
+          />
+        )}
+      </div>
+    </>
   );
 };
 

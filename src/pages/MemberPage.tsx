@@ -24,6 +24,8 @@ const Container = styled.div`
 `;
 
 const Box = styled.div`
+  position: relative;
+
   width: 500px;
   height: 750px;
 

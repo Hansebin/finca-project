@@ -1,28 +1,34 @@
-import React, { useState } from "react";
-import { useRecoilState } from "recoil";
-import "./Pagination.css";
+import React from "react";
 import ReactJsPagination from "react-js-pagination";
-import { MemberDataState } from "../../datas/recoilData";
-import { Member } from "../../typeModel/member";
+import "../../pagination.css";
 
-const Pagination: React.FC = () => {
-  const [page, setPage] = useState<number>(1);
-  const [memberData] = useRecoilState<Member>(MemberDataState);
+interface PaginationProps {
+  activePage: number;
+  totalItemsCount: number;
+  itemsCountPerPage: number;
+  pageRangeDisplayed: number;
+  onChange: (pageNumber: number) => void;
+}
 
-  const handlePageChange = (page: number) => {
-    setPage(page);
-  };
-
+const Pagination: React.FC<PaginationProps> = ({
+  activePage,
+  totalItemsCount,
+  itemsCountPerPage,
+  pageRangeDisplayed,
+  onChange,
+}) => {
   return (
-    <ReactJsPagination
-      activePage={page}
-      itemsCountPerPage={4}
-      totalItemsCount={memberData.accountList.length}
-      pageRangeDisplayed={5}
-      prevPageText="‹"
-      nextPageText="›"
-      onChange={handlePageChange}
-    />
+    <div className="paginationBox">
+      <ReactJsPagination
+        activePage={activePage}
+        itemsCountPerPage={itemsCountPerPage}
+        totalItemsCount={totalItemsCount}
+        pageRangeDisplayed={pageRangeDisplayed}
+        prevPageText="‹"
+        nextPageText="›"
+        onChange={onChange}
+      />
+    </div>
   );
 };
 
