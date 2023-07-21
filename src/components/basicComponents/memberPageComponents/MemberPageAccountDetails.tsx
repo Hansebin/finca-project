@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import { MemberDataState } from "../../../datas/recoilData";
 import { Member } from "../../../typeModel/member";
 import styled from "styled-components";
-import Pagination from "../../paginationComponent/pagination";
+import Pagination from "../../paginationComponent/Pagination";
 
 const AccountDetailContainer = styled.div`
   display: flex;
