@@ -11,6 +11,7 @@ import MemberAccountBook from "../components/basicComponents/memberPageComponent
 import MemberChart from "../components/basicComponents/memberPageComponents/MemberChart";
 import Recharge from "../components/basicComponents/memberPageComponents/Recharge";
 import Remit from "../components/basicComponents/memberPageComponents/Remit";
+import BankingNumber from "../components/basicComponents/BankingNumber";
 import Spinner from "../components/spinnerComponent/Spinner";
 
 const Container = styled.div`
@@ -106,8 +107,10 @@ const MemberPage: React.FC = () => {
             <MemberChart />
           ) : clickNav === "remit" ? (
             <Remit />
-          ) : (
+          ) : clickNav === "recharge" ? (
             <Recharge />
+          ) : (
+            <BankingNumber />
           )}
         </Box>
       </Container>

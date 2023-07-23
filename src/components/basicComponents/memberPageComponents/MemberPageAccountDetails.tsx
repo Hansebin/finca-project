@@ -27,6 +27,17 @@ const AccountDetailBox = styled.div`
   border-radius: 7px;
 `;
 
+const CategoryBox = styled.div`
+  background-color: ${({ color }) =>
+    color === "basic"
+      ? "#7966E4"
+      : color === "blue"
+      ? "#3790F3"
+      : color === "green"
+      ? "#B4DD7F"
+      : "#EC5564"};
+`;
+
 const MemberPageAccountDetails: React.FC = () => {
   const [memberData] = useRecoilState<Member>(MemberDataState);
 
@@ -52,9 +63,20 @@ const MemberPageAccountDetails: React.FC = () => {
         {currentAccountList.map((Detail, index) => (
           <AccountDetailBox key={index}>
             <div className="flex flex-row items-center">
-              <p className="py-2.5 px-3 bg-re-color-003 text-white rounded-full text-lg font-bold mr-2">
+              <CategoryBox
+                className="py-2.5 px-3 bg-re-color-003 text-white rounded-full text-lg font-bold mr-2"
+                color={
+                  Detail.category === "충전"
+                    ? "basic"
+                    : Detail.category === "식사"
+                    ? "blue"
+                    : Detail.category === "여가"
+                    ? "green"
+                    : "red"
+                }
+              >
                 {Detail.category[0]}
-              </p>
+              </CategoryBox>
               <div className="flex flex-col">
                 <p className="text-base text-re-color-004 font-semibold">
                   {Detail.category}

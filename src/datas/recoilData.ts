@@ -72,6 +72,8 @@ export const MemberDataState = atom<Member>({
 export const ClickNavState = atom<ClickNav>({
   key: "ClickNavState",
   default: "account",
+  // "account"
+  // "bankingNum"
 });
 
 // 6. 로딩 상태
