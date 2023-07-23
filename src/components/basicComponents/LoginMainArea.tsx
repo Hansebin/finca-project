@@ -16,7 +16,7 @@ import {
   ClickModalState,
 } from "../../datas/recoilData";
 import { SocialJoinUserData } from "../../typeModel/JoinInputData";
-import Modal from "../modalComponent/modal";
+import Modal from "../modalComponent/Modal";
 
 // styled-components
 const Box = styled.div`

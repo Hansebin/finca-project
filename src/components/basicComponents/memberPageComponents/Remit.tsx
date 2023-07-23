@@ -19,7 +19,7 @@ import {
   getDoc,
   updateDoc,
 } from "../../../firebase";
-import Modal from "../../modalComponent/modal";
+import Modal from "../../modalComponent/Modal";
 
 interface categoryButtonProps {
   active: boolean;

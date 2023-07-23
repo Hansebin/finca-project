@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { ClickModalState } from "../../../datas/recoilData";
-import Modal from "../../modalComponent/modal";
+import Modal from "../../modalComponent/Modal";
 import { RechargeInputValue } from "../../../typeModel/RechargeInputData";
 import {
   db,

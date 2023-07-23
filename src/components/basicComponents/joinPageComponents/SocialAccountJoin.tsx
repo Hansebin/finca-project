@@ -15,7 +15,7 @@ import {
 } from "../../../typeModel/JoinInputData";
 import SocialJoinInput from "./SocialJoinInput";
 import { db, collection, doc, setDoc } from "../../../firebase";
-import Modal from "../../modalComponent/modal";
+import Modal from "../../modalComponent/Modal";
 
 // styled-components
 const Box = styled.div`

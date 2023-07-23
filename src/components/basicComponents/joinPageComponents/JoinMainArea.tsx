@@ -11,7 +11,7 @@ import {
 import { InputData, InputDataIsValid } from "../../../typeModel/JoinInputData";
 import { auth, createUserWithEmailAndPassword } from "../../../firebase";
 import { db, collection, doc, setDoc } from "../../../firebase";
-import Modal from "../../modalComponent/modal";
+import Modal from "../../modalComponent/Modal";
 
 // styled-components
 const Box = styled.div`
