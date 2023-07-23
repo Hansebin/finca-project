@@ -2,7 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { MemberDataState, ClickCategoryState } from "../../../datas/recoilData";
+import {
+  MemberDataState,
+  ClickCategoryState,
+  ClickModalState,
+} from "../../../datas/recoilData";
 import { Member } from "../../../typeModel/member";
 import { RemitInputValue } from "../../../typeModel/RemitInputData";
 import {
@@ -15,6 +19,7 @@ import {
   getDoc,
   updateDoc,
 } from "../../../firebase";
+import Modal from "../../modalComponent/modal";
 
 interface categoryButtonProps {
   active: boolean;
@@ -74,6 +79,8 @@ const InactiveButton = styled.button`
 // styled-components
 
 const Remit: React.FC = () => {
+  const [clickModal, setClickModal] = useRecoilState(ClickModalState);
+
   const [remitInputValue, setRemitInputValue] = useState<RemitInputValue>({
     remitAccountNumber: "",
     remitPrice: "",
@@ -205,7 +212,7 @@ const Remit: React.FC = () => {
               {
                 category: "충전",
                 memo: "충전(채우기)",
-                price: +remitInputValue.remitPrice,
+                price: "+" + remitInputValue.remitPrice,
                 date: new Date().toDateString(),
               },
             ],
@@ -218,20 +225,27 @@ const Remit: React.FC = () => {
           return console.log("No such document!");
         }
 
-        alert("송금 완료!");
+        setClickModal({ state: true, text: "송금 완료!" });
         location.reload();
       } else {
-        alert("잔액이 부족해 송금이 불가능합니다.");
+        setClickModal({
+          state: true,
+          text: "잔액이 부족해 송금이 불가능합니다.",
+        });
         clearInput();
       }
     } else {
-      alert("존재하지 않는 계좌 번호입니다. 올바른 계좌 번호를 입력해주세요.");
+      setClickModal({
+        state: true,
+        text: "존재하지 않는 계좌번호입니다. 올바른 계좌번호를 입력해주세요.",
+      });
       clearInput();
     }
   };
 
   return (
     <>
+      <Modal />
       <p className="text-4xl font-medium text-re-color-003 mb-10">송금하기</p>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-7">

@@ -11,8 +11,12 @@ import {
   signInWithEmailAndPassword,
 } from "../../firebase";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { SocialLoginUserDataState } from "../../datas/recoilData";
+import {
+  SocialLoginUserDataState,
+  ClickModalState,
+} from "../../datas/recoilData";
 import { SocialJoinUserData } from "../../typeModel/JoinInputData";
+import Modal from "../modalComponent/modal";
 
 // styled-components
 const Box = styled.div`
@@ -59,6 +63,8 @@ const LoginMainArea: React.FC = () => {
   const [emailId, setEmailId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
+  const [clickModal, setClickModal] = useRecoilState(ClickModalState);
+
   const [socialLoginUserDate, setSocialLoginUserDate] =
     useRecoilState<SocialJoinUserData>(SocialLoginUserDataState);
 
@@ -82,7 +88,10 @@ const LoginMainArea: React.FC = () => {
       sessionStorage.setItem("loginData", JSON.stringify(loginData));
       navigate(`/memberPage`);
     } catch (error) {
-      alert("유효하지 않은 아이디와 비밀번호 입니다. 다시 입력해주새요!");
+      setClickModal({
+        state: true,
+        text: "유효하지 않은 아이디와 비밀번호 입니다. 다시 입력해주세요!",
+      });
       setEmailId("");
       setPassword("");
       console.log(error);
@@ -119,6 +128,7 @@ const LoginMainArea: React.FC = () => {
 
   return (
     <>
+      <Modal />
       <Box>
         <form
           className="flex flex-col justify-center items-center"

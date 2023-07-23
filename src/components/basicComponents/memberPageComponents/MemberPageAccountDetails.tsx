@@ -55,9 +55,12 @@ const MemberPageAccountDetails: React.FC = () => {
               <p className="py-2.5 px-3 bg-re-color-003 text-white rounded-full text-lg font-bold mr-2">
                 {Detail.category[0]}
               </p>
-              <p className="text-base font-bold text-gray-003">
-                {Detail.category}
-              </p>
+              <div className="flex flex-col">
+                <p className="text-base text-re-color-004 font-semibold">
+                  {Detail.category}
+                </p>
+                <p className="text-xs text-gray-003">{Detail.date}</p>
+              </div>
             </div>
             <div className="flex flex-row">
               <p className="text-lg font-bold text-re-color-003 mr-4">

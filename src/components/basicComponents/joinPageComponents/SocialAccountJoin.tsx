@@ -6,6 +6,7 @@ import {
   SocialLoginUserDataState,
   inputValueState,
   SocialIsValidState,
+  ClickModalState,
 } from "../../../datas/recoilData";
 import {
   SocialJoinUserData,
@@ -14,6 +15,7 @@ import {
 } from "../../../typeModel/JoinInputData";
 import SocialJoinInput from "./SocialJoinInput";
 import { db, collection, doc, setDoc } from "../../../firebase";
+import Modal from "../../modalComponent/modal";
 
 // styled-components
 const Box = styled.div`
@@ -67,6 +69,8 @@ const InactiveButton = styled.button`
 const SocialAccountJoin: React.FC = () => {
   const navigate = useNavigate();
 
+  const [clickModal, setClickModal] = useRecoilState(ClickModalState);
+
   const [socialLoginUserDate] = useRecoilState<SocialJoinUserData>(
     SocialLoginUserDataState
   );
@@ -102,11 +106,11 @@ const SocialAccountJoin: React.FC = () => {
         userData
       );
 
-      alert("계좌 생성 성공!");
+      setClickModal({ state: true, text: "계좌 생성 성공!" });
       navigate(`/memberPage`);
     } catch (error) {
       console.error("회원가입 중 오류가 발생했습니다", error);
-      alert(error);
+      setClickModal({ state: true, text: "회원가입 중 오류가 발생했습니다." });
     }
   };
 
@@ -122,6 +126,7 @@ const SocialAccountJoin: React.FC = () => {
   return (
     <>
       <Box>
+        <Modal />
         <form
           className="flex flex-col justify-center items-center"
           onSubmit={handleSubmit}

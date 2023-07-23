@@ -12,4 +12,6 @@ html {
   height: 100vh;
 
   background-color: #e3defe;
+
+  position: relative;
 }

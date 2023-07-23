@@ -17,6 +17,10 @@ export default {
         "gray-003": "#B0B8CB",
         "gray-004": "#C5CAD5",
         "bg-color": "#E3DEFE",
+        "chart-blue": "#3790F3",
+        "chart-green": "#B4DD7F",
+        "chart-red": "#EC5564",
+        "chart-yellow": "#FFCA75",
       },
       spacing: {
         1: "5px",

@@ -85,3 +85,12 @@ export const ClickCategoryState = atom<string>({
   key: "ClickCategoryState",
   default: "미선택",
 });
+
+// 8. modal state
+export const ClickModalState = atom({
+  key: "ClickModalState",
+  default: {
+    state: false,
+    text: "",
+  },
+});

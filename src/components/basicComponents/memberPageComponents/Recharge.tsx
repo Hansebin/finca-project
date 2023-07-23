@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
+import { useRecoilState } from "recoil";
+import { ClickModalState } from "../../../datas/recoilData";
+import Modal from "../../modalComponent/modal";
 import { RechargeInputValue } from "../../../typeModel/RechargeInputData";
 import {
   db,
@@ -43,7 +46,7 @@ const ActiveButton = styled.button`
 
   border-radius: 10px;
 
-  margin-top: 186px;
+  margin-top: 286px;
 `;
 
 const InactiveButton = styled.button`
@@ -58,11 +61,13 @@ const InactiveButton = styled.button`
 
   border-radius: 10px;
 
-  margin-top: 186px;
+  margin-top: 286px;
 `;
 // styled-components
 
 const Recharge: React.FC = () => {
+  const [clickModal, setClickModal] = useRecoilState(ClickModalState);
+
   const [rechargeInputValue, setRechargeInputValue] =
     useState<RechargeInputValue>({
       remitAccountNumber: "",
@@ -167,7 +172,7 @@ const Recharge: React.FC = () => {
               {
                 category: "충전",
                 memo: "충전(채우기)",
-                price: +rechargeInputValue.remitPrice,
+                price: "+" + rechargeInputValue.remitPrice,
                 date: new Date().toDateString(),
               },
             ],
@@ -214,20 +219,27 @@ const Recharge: React.FC = () => {
           return console.log("No such document!");
         }
 
-        alert("충전 완료!");
+        setClickModal({ state: true, text: "충전 완료!" });
         location.reload();
       } else {
-        alert("잔액이 부족해 충전이 불가능합니다.");
+        setClickModal({
+          state: true,
+          text: "잔액이 부족해 충전이 불가능합니다.",
+        });
         clearInput();
       }
     } else {
-      alert("존재하지 않는 계좌 번호입니다. 올바른 계좌 번호를 입력해주세요.");
+      setClickModal({
+        state: true,
+        text: "존재하지 않은 계좌번호입니다. 올바른 계좌번호를 입력해주세요.",
+      });
       clearInput();
     }
   };
 
   return (
     <>
+      <Modal />
       <p className="text-4xl font-medium text-re-color-003 mb-10">충전하기</p>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-7">

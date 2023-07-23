@@ -3,10 +3,15 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import JoinInput from "./JoinInput";
-import { inputValueState, IsValidState } from "../../../datas/recoilData";
+import {
+  inputValueState,
+  IsValidState,
+  ClickModalState,
+} from "../../../datas/recoilData";
 import { InputData, InputDataIsValid } from "../../../typeModel/JoinInputData";
 import { auth, createUserWithEmailAndPassword } from "../../../firebase";
 import { db, collection, doc, setDoc } from "../../../firebase";
+import Modal from "../../modalComponent/modal";
 
 // styled-components
 const Box = styled.div`
@@ -64,6 +69,8 @@ const JoinMainArea: React.FC = () => {
 
   const [isValid] = useRecoilState<InputDataIsValid>(IsValidState);
 
+  const [clickModal, setClickModal] = useRecoilState(ClickModalState);
+
   const {
     name,
     accountNumber,
@@ -101,11 +108,14 @@ const JoinMainArea: React.FC = () => {
       };
 
       await setDoc(doc(collection(db, "users"), userUID), userData);
-      alert("회원가입 성공!");
+      setClickModal({ state: true, text: "회원가입 성공!" });
       navigate("/login");
     } catch (error) {
       console.error("회원가입 중 오류가 발생했습니다", error);
-      alert(error);
+      setClickModal({
+        state: true,
+        text: "회원가입 중 오류가 발생했습니다. 다시 시도해주세요!",
+      });
     }
   };
 
@@ -121,6 +131,7 @@ const JoinMainArea: React.FC = () => {
   return (
     <>
       <Box>
+        <Modal />
         <form
           className="flex flex-col justify-center items-center"
           onSubmit={handleSubmit}
