@@ -6,8 +6,11 @@ import {
   MemberDataState,
   ClickCategoryState,
   ClickModalState,
+  remitInputValueState,
+  ClickNavState,
+  remitOrRecharge,
 } from "../../../datas/recoilData";
-import { Member } from "../../../typeModel/member";
+import { Member, ClickNav } from "../../../typeModel/member";
 import { RemitInputValue } from "../../../typeModel/RemitInputData";
 import {
   db,
@@ -79,15 +82,20 @@ const InactiveButton = styled.button`
 // styled-components
 
 const Remit: React.FC = () => {
+  // modal
   const [clickModal, setClickModal] = useRecoilState(ClickModalState);
 
-  const [remitInputValue, setRemitInputValue] = useState<RemitInputValue>({
-    remitAccountNumber: "",
-    remitPrice: "",
-    remitMemo: "",
-    category: "",
-  });
   const [memberData] = useRecoilState<Member>(MemberDataState);
+
+  const [clickNav, setClickNav] = useRecoilState<ClickNav>(ClickNavState);
+
+  const [remitOrRechargeState, setRemitOrRechargeState] =
+    useRecoilState<string>(remitOrRecharge);
+
+  const [remitInputValue, setRemitInputValue] =
+    useRecoilState<RemitInputValue>(remitInputValueState);
+
+  // click category
   const [ClickCategory, setClickCategory] =
     useRecoilState<string>(ClickCategoryState);
 
@@ -156,77 +164,8 @@ const Remit: React.FC = () => {
 
     if (isExistAccountNumber) {
       if (isEnoughPrice) {
-        // 1. 송금한 계좌 데이터 업데이트
-        const userUID = sessionStorage.getItem("loginData");
-        let uid = "";
-
-        if (userUID !== null) {
-          uid = JSON.parse(userUID).uid;
-        } else {
-          uid = "";
-        }
-
-        const docRef = doc(db, "users", uid);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-          const { accountList, totalPrice } = docSnap.data();
-
-          await updateDoc(docRef, {
-            accountList: [
-              ...accountList,
-              {
-                category: remitInputValue.category,
-                memo: remitInputValue.remitMemo,
-                price: -remitInputValue.remitPrice,
-                date: new Date().toDateString(),
-              },
-            ],
-          });
-
-          await updateDoc(docRef, {
-            totalPrice: totalPrice - Number(remitInputValue.remitPrice),
-          });
-        } else {
-          return console.log("No such document!");
-        }
-
-        // 2. 보낸 계좌 데이터 업데이트
-        const q = query(
-          collection(db, "users"),
-          where("accountNumber", "==", remitInputValue.remitAccountNumber)
-        );
-
-        const querySnapshot = await getDocs(q);
-        const chargeAccountUid = querySnapshot.docs[0].id;
-
-        const chargeDocRef = doc(db, "users", chargeAccountUid);
-        const chargeDocSnap = await getDoc(chargeDocRef);
-
-        if (chargeDocSnap.exists()) {
-          const { accountList, totalPrice } = chargeDocSnap.data();
-
-          await updateDoc(chargeDocRef, {
-            accountList: [
-              ...accountList,
-              {
-                category: "충전",
-                memo: "충전(채우기)",
-                price: "+" + remitInputValue.remitPrice,
-                date: new Date().toDateString(),
-              },
-            ],
-          });
-
-          await updateDoc(chargeDocRef, {
-            totalPrice: totalPrice + Number(remitInputValue.remitPrice),
-          });
-        } else {
-          return console.log("No such document!");
-        }
-
-        setClickModal({ state: true, text: "송금 완료!" });
-        location.reload();
+        setRemitOrRechargeState("remit");
+        setClickNav("bankingNumber");
       } else {
         setClickModal({
           state: true,

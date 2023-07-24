@@ -2,8 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { ClickModalState } from "../../../datas/recoilData";
+import {
+  ClickModalState,
+  MemberDataState,
+  ClickNavState,
+  remitOrRecharge,
+  rechargeInputValueState,
+} from "../../../datas/recoilData";
 import Modal from "../../modalComponent/Modal";
+import { Member, ClickNav } from "../../../typeModel/member";
 import { RechargeInputValue } from "../../../typeModel/RechargeInputData";
 import {
   db,
@@ -66,13 +73,18 @@ const InactiveButton = styled.button`
 // styled-components
 
 const Recharge: React.FC = () => {
+  // modal
   const [clickModal, setClickModal] = useRecoilState(ClickModalState);
 
+  const [memberData] = useRecoilState<Member>(MemberDataState);
+
+  const [clickNav, setClickNav] = useRecoilState<ClickNav>(ClickNavState);
+
+  const [remitOrRechargeState, setRemitOrRechargeState] =
+    useRecoilState<string>(remitOrRecharge);
+
   const [rechargeInputValue, setRechargeInputValue] =
-    useState<RechargeInputValue>({
-      remitAccountNumber: "",
-      remitPrice: "",
-    });
+    useRecoilState<RechargeInputValue>(rechargeInputValueState);
 
   // const 입력값 전달 받고 저장할 데이터 형식 생성하는 함수 = () => {}
   // rechargeInputValue = 사용자에게 입력 받은 충전 관련 데이터
@@ -150,77 +162,8 @@ const Recharge: React.FC = () => {
 
     if (isExistAccountNumber) {
       if (isEnoughPrice) {
-        // 1. 충전한 계좌 데이터 업데이트
-        const userUID = sessionStorage.getItem("loginData");
-        let uid = "";
-
-        if (userUID !== null) {
-          uid = JSON.parse(userUID).uid;
-        } else {
-          uid = "";
-        }
-
-        const docRef = doc(db, "users", uid);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-          const { accountList, totalPrice } = docSnap.data();
-
-          await updateDoc(docRef, {
-            accountList: [
-              ...accountList,
-              {
-                category: "충전",
-                memo: "충전(채우기)",
-                price: "+" + rechargeInputValue.remitPrice,
-                date: new Date().toDateString(),
-              },
-            ],
-          });
-
-          await updateDoc(docRef, {
-            totalPrice: totalPrice + Number(rechargeInputValue.remitPrice),
-          });
-        } else {
-          return console.log("No such document!");
-        }
-
-        // 2. 보낸 계좌 데이터 업데이트
-        const q = query(
-          collection(db, "users"),
-          where("accountNumber", "==", rechargeInputValue.remitAccountNumber)
-        );
-
-        const querySnapshot = await getDocs(q);
-        const chargeAccountUid = querySnapshot.docs[0].id;
-
-        const chargeDocRef = doc(db, "users", chargeAccountUid);
-        const chargeDocSnap = await getDoc(chargeDocRef);
-
-        if (chargeDocSnap.exists()) {
-          const { accountList, totalPrice } = chargeDocSnap.data();
-
-          await updateDoc(chargeDocRef, {
-            accountList: [
-              ...accountList,
-              {
-                category: "충전",
-                memo: "충전(보내기)",
-                price: -rechargeInputValue.remitPrice,
-                date: new Date().toDateString(),
-              },
-            ],
-          });
-
-          await updateDoc(chargeDocRef, {
-            totalPrice: totalPrice - Number(rechargeInputValue.remitPrice),
-          });
-        } else {
-          return console.log("No such document!");
-        }
-
-        setClickModal({ state: true, text: "충전 완료!" });
-        location.reload();
+        setRemitOrRechargeState("recharge");
+        setClickNav("bankingNumber");
       } else {
         setClickModal({
           state: true,

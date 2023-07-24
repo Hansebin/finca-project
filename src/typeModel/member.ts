@@ -8,6 +8,7 @@ export type Member = {
   expectSpending: number;
   expectIncome: number;
   accountBookList: AccountBookDetail[];
+  bankingNumber: number;
 };
 
 export type ClickNav = string;

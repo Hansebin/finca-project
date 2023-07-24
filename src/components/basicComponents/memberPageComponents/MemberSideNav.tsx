@@ -79,7 +79,8 @@ const MemberSideNav: React.FC = () => {
           active={
             clickNav === "account" ||
             clickNav === "remit" ||
-            clickNav === "recharge"
+            clickNav === "recharge" ||
+            clickNav === "bankingNumber"
           }
           onClick={() => handleButtonClick("account")}
         >

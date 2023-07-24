@@ -6,6 +6,8 @@ import {
   SocialInputDataIsValid,
 } from "../typeModel/JoinInputData";
 import { Member, ClickNav } from "../typeModel/member";
+import { RemitInputValue } from "../typeModel/RemitInputData";
+import { RechargeInputValue } from "../typeModel/RechargeInputData";
 
 // 1. 회원가입 전 회원 데이터 초기화
 export const inputValueState = atom<InputData>({
@@ -65,6 +67,7 @@ export const MemberDataState = atom<Member>({
     expectSpending: 0,
     expectIncome: 0,
     accountBookList: [],
+    bankingNumber: 0,
   },
 });
 
@@ -95,4 +98,30 @@ export const ClickModalState = atom({
     state: false,
     text: "",
   },
+});
+
+// 9. remitInputValueState
+export const remitInputValueState = atom<RemitInputValue>({
+  key: "remitInputValueState",
+  default: {
+    remitAccountNumber: "",
+    remitPrice: "",
+    remitMemo: "",
+    category: "",
+  },
+});
+
+// 10. rechargeInputValueState
+export const rechargeInputValueState = atom<RechargeInputValue>({
+  key: "rechargeInputValueState",
+  default: {
+    remitAccountNumber: "",
+    remitPrice: "",
+  },
+});
+
+// 11. remit vs recharge
+export const remitOrRecharge = atom<string>({
+  key: "remitOrRecharge",
+  default: "",
 });

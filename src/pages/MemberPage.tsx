@@ -67,6 +67,7 @@ const MemberPage: React.FC = () => {
           expectSpending,
           expectIncome,
           accountBookList,
+          bankingNumber,
         } = docSnap.data();
 
         // 📍 불러온 데이터 전역 상태로 관리 => 로그아웃 하면 초기화시키기
@@ -78,6 +79,7 @@ const MemberPage: React.FC = () => {
           expectSpending: expectSpending,
           expectIncome: expectIncome,
           accountBookList: accountBookList,
+          bankingNumber: bankingNumber,
         });
 
         setLoading(false);
