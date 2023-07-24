@@ -8,10 +8,12 @@ import { MemberDataState, ClickNavState } from "../datas/recoilData";
 import { Member, ClickNav } from "../typeModel/member";
 import MemberAccount from "../components/basicComponents/memberPageComponents/MemberAccount";
 import MemberAccountBook from "../components/basicComponents/memberPageComponents/MemberAccountBook";
-import MemberChart from "../components/basicComponents/memberPageComponents/MemberChart";
+// import MemberChart from "../components/basicComponents/memberPageComponents/MemberChart";
 import Recharge from "../components/basicComponents/memberPageComponents/Recharge";
 import Remit from "../components/basicComponents/memberPageComponents/Remit";
 import BankingNumber from "../components/basicComponents/BankingNumber";
+import DateChart from "../components/basicComponents/memberPageComponents/DateChart";
+import CategoryChart from "../components/basicComponents/memberPageComponents/CategoryChart";
 import Spinner from "../components/spinnerComponent/Spinner";
 
 const Container = styled.div`
@@ -106,13 +108,15 @@ const MemberPage: React.FC = () => {
           ) : clickNav === "accountBook" ? (
             <MemberAccountBook />
           ) : clickNav === "chart" ? (
-            <MemberChart />
+            <DateChart />
           ) : clickNav === "remit" ? (
             <Remit />
           ) : clickNav === "recharge" ? (
             <Recharge />
-          ) : (
+          ) : clickNav === "bankingNumber" ? (
             <BankingNumber />
+          ) : (
+            <CategoryChart />
           )}
         </Box>
       </Container>

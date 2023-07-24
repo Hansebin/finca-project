@@ -95,7 +95,7 @@ const MemberSideNav: React.FC = () => {
         </WhiteButton>
         <WhiteButton
           name="chart"
-          active={clickNav === "chart"}
+          active={clickNav === "chart" || clickNav === "categoryChart"}
           onClick={() => handleButtonClick("chart")}
         >
           지출차트
