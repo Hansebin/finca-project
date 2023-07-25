@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import { ClickNavState } from "../../../datas/recoilData";
 import { ClickNav } from "../../../typeModel/member";
+import CategoryChartComponent from "./CategoryChartComponent";
 
 interface ActiveBtn {
   active: boolean;
@@ -52,7 +53,9 @@ const CategoryChart: React.FC = () => {
       <p className="text-3xl font-bold text-re-color-002 mt-10">
         {new Date().getFullYear()}년 지출 차트
       </p>
-      <div className="w-full mt-10">CategoryChart!</div>
+      <div className="w-full mt-16">
+        <CategoryChartComponent />
+      </div>
     </>
   );
 };
