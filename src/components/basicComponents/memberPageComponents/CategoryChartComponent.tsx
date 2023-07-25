@@ -58,8 +58,6 @@ const CategoryChartComponent: React.FC = () => {
     ],
   };
 
-  console.log(perOnePercent);
-
   return <Doughnut data={data} />;
 };
 
