@@ -36,10 +36,10 @@ const AccountMainArea: React.FC = () => {
         </p>
         <div className="flex flex-row gap-x-4 mt-5">
           <button className="basis-1/2 h-10 bg-re-color-001 rounded-md text-xl font-bold text-re-color-004">
-            송금
+            보내기
           </button>
           <button className="basis-1/2 h-10 bg-re-color-001 rounded-md text-xl font-bold text-re-color-004">
-            충전
+            채우기
           </button>
         </div>
         <StartPageAccountDetails />

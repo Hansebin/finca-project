@@ -88,7 +88,9 @@ const MemberSideNav: React.FC = () => {
         </WhiteButton>
         <WhiteButton
           name="accountBook"
-          active={clickNav === "accountBook"}
+          active={
+            clickNav === "accountBook" || clickNav === "makeAccountBookList"
+          }
           onClick={() => handleButtonClick("accountBook")}
         >
           가계부

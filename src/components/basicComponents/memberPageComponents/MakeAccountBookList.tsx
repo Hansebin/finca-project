@@ -4,17 +4,25 @@ import { useRecoilState } from "recoil";
 import {
   MemberDataState,
   ClickCategoryState,
+  accountBookInputValueState,
+  ClickTypeState,
   ClickModalState,
-  remitInputValueState,
-  ClickNavState,
-  remitOrRecharge,
 } from "../../../datas/recoilData";
-import { Member, ClickNav } from "../../../typeModel/member";
-import { RemitInputValue } from "../../../typeModel/RemitInputData";
-import { db, query, where, getDocs, collection } from "../../../firebase";
+import { Member } from "../../../typeModel/member";
+import { AccountInputValue } from "../../../typeModel/AccountInputData";
+import {
+  db,
+  query,
+  where,
+  getDocs,
+  collection,
+  doc,
+  getDoc,
+  updateDoc,
+} from "../../../firebase";
 import Modal from "../../modalComponent/Modal";
 
-interface categoryButtonProps {
+interface buttonProps {
   active: boolean;
 }
 
@@ -36,8 +44,21 @@ const Input = styled.input`
   }
 `;
 
-const CategoryButton = styled.div<categoryButtonProps>`
+const CategoryButton = styled.div<buttonProps>`
   background-color: ${(props) => (props.active ? "#36338C" : "#7966e4")};
+`;
+
+const TypeButton = styled.div<buttonProps>`
+  font-size: 20px;
+  font-weight: 700;
+
+  background-color: ${(props) => (props.active ? "#36338C" : "#f1f4fd")};
+  color: ${(props) => (props.active ? "white" : "#7966e4")};
+
+  padding: 10px 55px;
+  border-radius: 40px;
+
+  cursor: pointer;
 `;
 
 const ActiveButton = styled.button`
@@ -52,7 +73,7 @@ const ActiveButton = styled.button`
 
   border-radius: 10px;
 
-  margin-top: 80px;
+  margin-top: 40px;
 `;
 
 const InactiveButton = styled.button`
@@ -67,125 +88,129 @@ const InactiveButton = styled.button`
 
   border-radius: 10px;
 
-  margin-top: 80px;
+  margin-top: 40px;
 `;
 // styled-components
 
-const Remit: React.FC = () => {
-  // modal
+const MakeAccountBookList: React.FC = () => {
   const [clickModal, setClickModal] = useRecoilState(ClickModalState);
-
   const [memberData] = useRecoilState<Member>(MemberDataState);
 
-  const [clickNav, setClickNav] = useRecoilState<ClickNav>(ClickNavState);
-
-  const [remitOrRechargeState, setRemitOrRechargeState] =
-    useRecoilState<string>(remitOrRecharge);
-
-  const [remitInputValue, setRemitInputValue] =
-    useRecoilState<RemitInputValue>(remitInputValueState);
+  const [accountBookValue, setAccountBookValue] =
+    useRecoilState<AccountInputValue>(accountBookInputValueState);
 
   // click category
   const [ClickCategory, setClickCategory] =
     useRecoilState<string>(ClickCategoryState);
 
-  const handleButtonClick = (name: string) => {
+  const handleCategoryClick = (name: string) => {
     setClickCategory(name);
   };
 
+  // click type
+  const [ClickType, setClickType] = useRecoilState<string>(ClickTypeState);
+
+  const handleTypeClick = (name: string) => {
+    setClickType(name);
+  };
+
   // const 입력값 전달 받고 저장할 데이터 형식 생성하는 함수 = () => {}
-  // remitInputValue = 사용자에게 입력 받은 송금 관련 데이터
+  // accountBookInputValue = 사용자에게 입력 받은 가계부 데이터
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setRemitInputValue((prevInputValues) => ({
+    setAccountBookValue((prevInputValues) => ({
       ...prevInputValues,
       [name]: value,
     }));
   };
 
   const handleCategorySelection = (category: string) => {
-    setRemitInputValue((prevInputValues) => ({
+    setAccountBookValue((prevInputValues) => ({
       ...prevInputValues,
       category: category,
     }));
   };
 
+  const handleTypeSelection = (accountbookType: string) => {
+    setAccountBookValue((prevInputValues) => ({
+      ...prevInputValues,
+      accountbookType: accountbookType,
+    }));
+  };
+
   // 모든 항목 입력/선택했는지
-  const isAnyValueEmpty = Object.values(remitInputValue).some(
+  const isAnyValueEmpty = Object.values(accountBookValue).some(
     (value) => value === ""
   );
 
-  // const 전달 받을 계좌가 존재하는지 여부 판단하는 함수 = () => {}
-  const existAccountNumber = async () => {
-    const q = query(
-      collection(db, "users"),
-      where("accountNumber", "==", remitInputValue.remitAccountNumber)
-    );
-
-    const querySnapshot = await getDocs(q);
-    return !querySnapshot.empty;
-  };
-
-  // const 송금할 계좌의 잔액이 충분한지 판단하는 함수 = () => {}
-  const enoughPrice = async () => {
-    return memberData.totalPrice >= Number(remitInputValue.remitPrice);
-  };
-
   // input창 초기화
   const clearInput = () => {
-    setRemitInputValue({
-      remitAccountNumber: "",
-      remitPrice: "",
-      remitMemo: "",
+    setAccountBookValue({
+      accountBookDate: "",
+      accountBookPrice: "",
+      accountBookMemo: "",
       category: "",
+      accountbookType: "",
     });
-    handleButtonClick("미선택");
+    handleCategoryClick("미선택");
   };
 
-  // const 송금하기 함수 = () => {}
+  // const 데이터 저장하기 함수 = () => {}
   const handleSubmit = async (e: React.FormEvent) => {
-    // 제출과 동시에 계좌와 잔액 확인
     e.preventDefault();
 
-    const [isExistAccountNumber, isEnoughPrice] = await Promise.all([
-      existAccountNumber(),
-      enoughPrice(),
-    ]);
+    const userUID = sessionStorage.getItem("loginData");
+    let uid = "";
 
-    if (isExistAccountNumber) {
-      if (isEnoughPrice) {
-        setRemitOrRechargeState("remit");
-        setClickNav("bankingNumber");
-      } else {
-        setClickModal({
-          state: true,
-          text: "잔액이 부족해 송금이 불가능합니다.",
-        });
-        clearInput();
-      }
+    if (userUID !== null) {
+      uid = JSON.parse(userUID).uid;
     } else {
-      setClickModal({
-        state: true,
-        text: "존재하지 않는 계좌번호입니다. 올바른 계좌번호를 입력해주세요.",
-      });
-      clearInput();
+      uid = "";
     }
+
+    const docRef = doc(db, "users", uid);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const { accountBookList } = docSnap.data();
+
+      await updateDoc(docRef, {
+        accountBookList: [
+          ...accountBookList,
+          {
+            category: accountBookValue.category,
+            accountbookType: accountBookValue.accountbookType,
+            memo: accountBookValue.accountBookMemo,
+            price: accountBookValue.accountBookPrice,
+            date: accountBookValue.accountBookDate,
+          },
+        ],
+      });
+    } else {
+      return console.log("No such document!");
+    }
+
+    clearInput();
+    setClickModal({ state: true, text: "완료!" });
+    location.reload();
   };
 
   return (
     <>
       <Modal />
-      <p className="text-4xl font-medium text-re-color-003 mb-10">송금하기</p>
+      <p className="text-4xl font-medium text-re-color-003 mb-10">
+        가계부 작성하기
+      </p>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-7">
           <div className="flex flex-row items-center bg-re-color-001 w-full h-13 rounded-lg p-3">
-            <InputTitle>보낼 계좌</InputTitle>
+            <InputTitle>날짜 입력</InputTitle>
             <Input
               required
               autoComplete="off"
-              placeholder="보낼 계좌를 입력하세요."
-              name="remitAccountNumber"
-              value={remitInputValue.remitAccountNumber}
+              placeholder="YYYY-MM-DD 형식 권장"
+              name="accountBookDate"
+              value={accountBookValue.accountBookDate}
               onChange={handleChange}
             />
           </div>
@@ -194,8 +219,8 @@ const Remit: React.FC = () => {
             <Input
               required
               autoComplete="off"
-              name="remitPrice"
-              value={remitInputValue.remitPrice}
+              name="accountBookPrice"
+              value={accountBookValue.accountBookPrice}
               onChange={handleChange}
             />
           </div>
@@ -204,8 +229,8 @@ const Remit: React.FC = () => {
             <Input
               required
               autoComplete="off"
-              name="remitMemo"
-              value={remitInputValue.remitMemo}
+              name="accountBookMemo"
+              value={accountBookValue.accountBookMemo}
               onChange={handleChange}
             />
           </div>
@@ -220,7 +245,7 @@ const Remit: React.FC = () => {
               active={ClickCategory === "식사"}
               onClick={() => {
                 handleCategorySelection("식사");
-                handleButtonClick("식사");
+                handleCategoryClick("식사");
               }}
             >
               식사
@@ -230,7 +255,7 @@ const Remit: React.FC = () => {
               active={ClickCategory === "여가"}
               onClick={() => {
                 handleCategorySelection("여가");
-                handleButtonClick("여가");
+                handleCategoryClick("여가");
               }}
             >
               여가
@@ -240,7 +265,7 @@ const Remit: React.FC = () => {
               active={ClickCategory === "쇼핑"}
               onClick={() => {
                 handleCategorySelection("쇼핑");
-                handleButtonClick("쇼핑");
+                handleCategoryClick("쇼핑");
               }}
             >
               쇼핑
@@ -250,21 +275,41 @@ const Remit: React.FC = () => {
               active={ClickCategory === "기타"}
               onClick={() => {
                 handleCategorySelection("기타");
-                handleButtonClick("기타");
+                handleCategoryClick("기타");
               }}
             >
               기타
             </CategoryButton>
           </div>
         </div>
+        <div className="flex flex-row justify-center items-center mt-4 gap-3">
+          <TypeButton
+            active={ClickType === "지출"}
+            onClick={() => {
+              handleTypeSelection("지출");
+              handleTypeClick("지출");
+            }}
+          >
+            지출
+          </TypeButton>
+          <TypeButton
+            active={ClickType === "수입"}
+            onClick={() => {
+              handleTypeSelection("수입");
+              handleTypeClick("수입");
+            }}
+          >
+            수입
+          </TypeButton>
+        </div>
         {isAnyValueEmpty ? (
-          <InactiveButton disabled>송금하기</InactiveButton>
+          <InactiveButton disabled>작성하기</InactiveButton>
         ) : (
-          <ActiveButton>송금하기</ActiveButton>
+          <ActiveButton>작성하기</ActiveButton>
         )}
       </form>
     </>
   );
 };
 
-export default Remit;
+export default MakeAccountBookList;

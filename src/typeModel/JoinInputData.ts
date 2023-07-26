@@ -10,6 +10,7 @@ export type AccountBookDetail = {
   memo: string;
   price: number;
   date: string;
+  accountbookType: string;
 };
 
 export type InputData = {

@@ -41,15 +41,27 @@ const CategoryBox = styled.div`
 `;
 
 const Container = styled.div`
-  min-height: 370px;
+  min-height: 285px;
 `;
 
-const MemberPageAccountDetails: React.FC = () => {
+const MemberPageAccountBookDetails: React.FC = () => {
   const [memberData] = useRecoilState<Member>(MemberDataState);
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth() + 1;
+
+  const newArr = () => {
+    const newList = memberData.accountBookList.filter(
+      (data) =>
+        data.date.includes(String(currentYear)) &&
+        data.date.includes(String(currentMonth))
+    );
+
+    return newList;
+  };
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4;
-  const totalPages = Math.ceil(memberData.accountList.length / itemsPerPage);
+  const itemsPerPage = 3;
+  const totalPages = Math.ceil(newArr().length / itemsPerPage);
   const pageRangeDisplayed = 5;
 
   const handlePageChange = (pageNumber: number) => {
@@ -59,7 +71,7 @@ const MemberPageAccountDetails: React.FC = () => {
   const accountDetailsList = () => {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentAccountList = memberData.accountList.slice(
+    const currentAccountList = newArr().slice(
       indexOfFirstItem,
       indexOfLastItem
     );
@@ -110,11 +122,13 @@ const MemberPageAccountDetails: React.FC = () => {
     <>
       <div className="mt-10">
         <Container>
-          <p className="mb-5 text-sm font-bold text-gray-002">내역 확인</p>
-          {memberData.accountList.length === 0 ? (
+          <p className="mb-5 text-sm font-bold text-gray-002">
+            가계부 내역 상세보기
+          </p>
+          {newArr().length === 0 ? (
             <div className="w-full text-center mt-21">
               <p className="font-bold text-xl text-gray-003">
-                내역이 없습니다.
+                가계부 내역이 없습니다.
               </p>
             </div>
           ) : (
@@ -126,7 +140,7 @@ const MemberPageAccountDetails: React.FC = () => {
         {totalPages > 1 && (
           <Pagination
             activePage={currentPage}
-            totalItemsCount={memberData.accountList.length}
+            totalItemsCount={newArr().length}
             itemsCountPerPage={itemsPerPage}
             pageRangeDisplayed={pageRangeDisplayed}
             onChange={handlePageChange}
@@ -137,4 +151,4 @@ const MemberPageAccountDetails: React.FC = () => {
   );
 };
 
-export default MemberPageAccountDetails;
+export default MemberPageAccountBookDetails;

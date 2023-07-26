@@ -8,6 +8,7 @@ import {
 import { Member, ClickNav } from "../typeModel/member";
 import { RemitInputValue } from "../typeModel/RemitInputData";
 import { RechargeInputValue } from "../typeModel/RechargeInputData";
+import { AccountInputValue } from "../typeModel/AccountInputData";
 
 // 1. 회원가입 전 회원 데이터 초기화
 export const inputValueState = atom<InputData>({
@@ -124,4 +125,22 @@ export const rechargeInputValueState = atom<RechargeInputValue>({
 export const remitOrRecharge = atom<string>({
   key: "remitOrRecharge",
   default: "",
+});
+
+// 12. accountBookInputValueState
+export const accountBookInputValueState = atom<AccountInputValue>({
+  key: "accountBookInputValueState",
+  default: {
+    accountBookDate: "",
+    accountBookPrice: "",
+    accountBookMemo: "",
+    category: "",
+    accountbookType: "",
+  },
+});
+
+// 13. 송금하기 카테고리 클릭 상태
+export const ClickTypeState = atom<string>({
+  key: "ClickTypeState",
+  default: "미선택",
 });
