@@ -23,6 +23,18 @@ const Button = styled.button`
   }
 `;
 
+const TitleText = styled.p`
+  @media screen and (max-width: 500px) {
+    font-size: 25px;
+  }
+`;
+
+const PriceText = styled.p`
+  @media screen and (max-width: 500px) {
+    font-size: 20px;
+  }
+`;
+
 const MemberAccountBook: React.FC = () => {
   const [memberData] = useRecoilState<Member>(MemberDataState);
   const [clickNav, setClickNav] = useRecoilState<ClickNav>(ClickNavState);
@@ -53,26 +65,26 @@ const MemberAccountBook: React.FC = () => {
     <>
       <div>
         <p className="text-xl font-bold text-gray-002">현명하게 소비하기!</p>
-        <p className="text-3xl font-bold text-re-color-004">
+        <TitleText className="text-3xl font-bold text-re-color-004">
           {currentYear}. 0{currentMonth}의 지출과 수입
-        </p>
+        </TitleText>
       </div>
       <div className="flex flex-row w-full mt-7">
         <div className="w-1/2">
           <p className="text-xl font-bold text-gray-003">
             예상 <span className="text-2xl text-re-color-003">지출</span>
           </p>
-          <p className="text-2xl text-re-color-002 font-bold mt-1">
+          <PriceText className="text-2xl text-re-color-002 font-bold mt-1">
             - {totalPrice("지출").toLocaleString()}원
-          </p>
+          </PriceText>
         </div>
         <div className="w-1/2">
           <p className="text-xl font-bold text-gray-003">
             예상 <span className="text-2xl text-re-color-003">수입</span>
           </p>
-          <p className="text-2xl text-re-color-002 font-bold mt-1">
+          <PriceText className="text-2xl text-re-color-002 font-bold mt-1">
             + {totalPrice("수입").toLocaleString()}원
-          </p>
+          </PriceText>
         </div>
       </div>
       <div className="flex flex-row justify-center items-center">

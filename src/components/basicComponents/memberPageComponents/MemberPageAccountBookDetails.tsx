@@ -139,7 +139,7 @@ const MemberPageAccountBookDetails: React.FC = () => {
                 {Detail.memo}
               </MemoText>
               <PriceText className="text-xl text-re-color-004 font-bold">
-                {Detail.price.toLocaleString()}
+                {Number(Detail.price).toLocaleString()}
               </PriceText>
             </div>
           </AccountDetailBox>

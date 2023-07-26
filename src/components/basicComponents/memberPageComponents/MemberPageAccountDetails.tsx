@@ -5,6 +5,10 @@ import { Member } from "../../../typeModel/member";
 import styled from "styled-components";
 import Pagination from "../../paginationComponent/Pagination";
 
+interface ActiveBtn {
+  active: boolean;
+}
+
 const AccountDetailContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -72,8 +76,17 @@ const DateText = styled.p`
   }
 `;
 
+const TypeButton = styled.p<ActiveBtn>`
+  background-color: ${(props) => (props.active ? "#7966e4" : "#E3DEFE")};
+  color: ${(props) => (props.active ? "white" : "#7966e4")};
+
+  transition: all 0.2s ease-in-out;
+`;
+
 const MemberPageAccountDetails: React.FC = () => {
   const [memberData] = useRecoilState<Member>(MemberDataState);
+
+  const [clickType, setClickType] = useState<string>("whole");
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
@@ -84,13 +97,32 @@ const MemberPageAccountDetails: React.FC = () => {
     setCurrentPage(pageNumber);
   };
 
+  const list = () => {
+    const spendList = memberData.accountList.filter(
+      (data) => data.category !== "충전"
+    );
+
+    const reChargeList = memberData.accountList.filter(
+      (data) => data.category === "충전"
+    );
+
+    if (clickType === "whole") {
+      return memberData.accountList;
+    } else if (clickType === "spend") {
+      return spendList;
+    } else {
+      return reChargeList;
+    }
+  };
+
+  const onClick = (type: string) => {
+    setClickType(type);
+  };
+
   const accountDetailsList = () => {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentAccountList = memberData.accountList.slice(
-      indexOfFirstItem,
-      indexOfLastItem
-    );
+    const currentAccountList = list().slice(indexOfFirstItem, indexOfLastItem);
 
     return (
       <>
@@ -138,10 +170,39 @@ const MemberPageAccountDetails: React.FC = () => {
 
   return (
     <>
-      <div className="mt-10">
+      <div className="mt-9">
         <Container>
-          <p className="mb-5 text-sm font-bold text-gray-002">내역 확인</p>
-          {memberData.accountList.length === 0 ? (
+          <div className="flex flex-row items-center mb-4 gap-3">
+            <p className="text-sm font-bold text-gray-002">내역 확인</p>
+            <TypeButton
+              className="text-sm font-bold py-1 px-2 rounded-md cursor-pointer"
+              onClick={() => {
+                onClick("whole");
+              }}
+              active={clickType === "whole"}
+            >
+              전체
+            </TypeButton>
+            <TypeButton
+              className="text-sm font-bold py-1 px-2 rounded-md cursor-pointer"
+              onClick={() => {
+                onClick("spend");
+              }}
+              active={clickType === "spend"}
+            >
+              지출
+            </TypeButton>
+            <TypeButton
+              className="text-sm font-bold py-1 px-2 rounded-md cursor-pointer"
+              onClick={() => {
+                onClick("charge");
+              }}
+              active={clickType === "charge"}
+            >
+              충전
+            </TypeButton>
+          </div>
+          {list().length === 0 ? (
             <div className="w-full text-center mt-21">
               <p className="font-bold text-xl text-gray-003">
                 내역이 없습니다.
@@ -156,7 +217,7 @@ const MemberPageAccountDetails: React.FC = () => {
         {totalPages > 1 && (
           <Pagination
             activePage={currentPage}
-            totalItemsCount={memberData.accountList.length}
+            totalItemsCount={list().length}
             itemsCountPerPage={itemsPerPage}
             pageRangeDisplayed={pageRangeDisplayed}
             onChange={handlePageChange}
