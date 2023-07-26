@@ -63,7 +63,7 @@ const MemberAccountBook: React.FC = () => {
             예상 <span className="text-2xl text-re-color-003">지출</span>
           </p>
           <p className="text-2xl text-re-color-002 font-bold mt-1">
-            - {totalPrice("지출")}원
+            - {totalPrice("지출").toLocaleString()}원
           </p>
         </div>
         <div className="w-1/2">
@@ -71,7 +71,7 @@ const MemberAccountBook: React.FC = () => {
             예상 <span className="text-2xl text-re-color-003">수입</span>
           </p>
           <p className="text-2xl text-re-color-002 font-bold mt-1">
-            + {totalPrice("수입")}원
+            + {totalPrice("수입").toLocaleString()}원
           </p>
         </div>
       </div>
