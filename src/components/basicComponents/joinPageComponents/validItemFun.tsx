@@ -1,3 +1,5 @@
+import { auth } from "../../../firebase";
+
 const isValidName = (name: string) => {
   const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z]+$/;
   return regex.test(name);

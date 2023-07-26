@@ -28,6 +28,10 @@ const InputTitle = styled.p`
   font-size: 20px;
   color: #36338c;
   font-weight: 700;
+
+  @media screen and (max-width: 500px) {
+    font-size: 15px;
+  }
 `;
 
 const Input = styled.input`
@@ -38,6 +42,11 @@ const Input = styled.input`
   margin-left: 15px;
   &:focus {
     outline: none;
+  }
+
+  @media screen and (max-width: 500px) {
+    font-size: 15px;
+    width: 150px;
   }
 `;
 

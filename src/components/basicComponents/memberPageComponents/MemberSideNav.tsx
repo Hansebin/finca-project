@@ -24,6 +24,18 @@ const WhiteButton = styled.button<WhiteButtonProps>`
   user-select: none;
 
   transition: all 0.3s ease-in-out;
+
+  @media screen and (max-width: 800px) {
+    width: 100px;
+    height: 50px;
+  }
+
+  @media screen and (max-width: 500px) {
+    font-size: 17px;
+    width: 80px;
+    height: 30px;
+    border-radius: 5px;
+  }
 `;
 
 const LogOutButton = styled.button`
@@ -44,6 +56,34 @@ const LogOutButton = styled.button`
 
   &:hover {
     opacity: 1;
+  }
+
+  @media screen and (max-width: 800px) {
+    width: 100px;
+    height: 50px;
+  }
+
+  @media screen and (max-width: 500px) {
+    font-size: 17px;
+    width: 80px;
+    height: 30px;
+    border-radius: 5px;
+  }
+`;
+
+const NavContainer = styled.div`
+  @media screen and (max-width: 800px) {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    gap: 10px;
+  }
+`;
+
+const Text = styled.p`
+  @media screen and (max-width: 500px) {
+    font-size: 25px;
   }
 `;
 // styled-components
@@ -70,10 +110,10 @@ const MemberSideNav: React.FC = () => {
 
   return (
     <div>
-      <p className="text-4xl font-bold text-re-color-002 mb-5">
+      <Text className="text-4xl font-bold text-re-color-002 mb-5">
         {memberData.name} 님,
-      </p>
-      <div className="flex flex-col gap-y-5">
+      </Text>
+      <NavContainer className="flex flex-col gap-y-5">
         <WhiteButton
           name="account"
           active={
@@ -103,7 +143,7 @@ const MemberSideNav: React.FC = () => {
           지출차트
         </WhiteButton>
         <LogOutButton onClick={logOut}>로그아웃</LogOutButton>
-      </div>
+      </NavContainer>
     </div>
   );
 };

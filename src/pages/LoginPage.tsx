@@ -11,6 +11,16 @@ const Container = styled.div`
   gap: 48px;
 
   padding-top: calc((100vh - 750px) / 2);
+
+  @media screen and (max-width: 800px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
 `;
 
 const LoginPage: React.FC = () => {

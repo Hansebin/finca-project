@@ -27,6 +27,11 @@ const Box = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: 500px) {
+    width: 95%;
+    padding: 25px;
+  }
 `;
 
 const ActiveButton = styled.button`
@@ -114,11 +119,10 @@ const JoinMainArea: React.FC = () => {
       console.error("회원가입 중 오류가 발생했습니다", error);
       setClickModal({
         state: true,
-        text: "회원가입 중 오류가 발생했습니다. 다시 시도해주세요!",
+        text: "중복된 아이디입니다. 다른 아이디를 입력해주세요.",
       });
     }
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     join();

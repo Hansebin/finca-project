@@ -23,6 +23,10 @@ const InputTitle = styled.p`
   font-size: 20px;
   color: #36338c;
   font-weight: 700;
+
+  @media screen and (max-width: 500px) {
+    font-size: 15px;
+  }
 `;
 
 const Input = styled.input`
@@ -34,10 +38,18 @@ const Input = styled.input`
   &:focus {
     outline: none;
   }
+
+  @media screen and (max-width: 500px) {
+    font-size: 15px;
+  }
 `;
 
 const CategoryButton = styled.div<categoryButtonProps>`
   background-color: ${(props) => (props.active ? "#36338C" : "#7966e4")};
+
+  @media screen and (max-width: 500px) {
+    padding: 5px 20px;
+  }
 `;
 
 const ActiveButton = styled.button`

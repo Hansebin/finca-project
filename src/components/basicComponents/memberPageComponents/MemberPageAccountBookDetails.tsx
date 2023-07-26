@@ -38,10 +38,38 @@ const CategoryBox = styled.div`
       : color === "red"
       ? "#EC5564"
       : "#FFCA75"};
+
+  @media screen and (max-width: 500px) {
+    padding: 3px 9px;
+  }
 `;
 
 const Container = styled.div`
   min-height: 285px;
+`;
+
+const MemoText = styled.p`
+  @media screen and (max-width: 500px) {
+    font-size: 13px;
+  }
+`;
+
+const PriceText = styled.p`
+  @media screen and (max-width: 500px) {
+    font-size: 15px;
+  }
+`;
+
+const CategoryText = styled.p`
+  @media screen and (max-width: 500px) {
+    font-size: 13px;
+  }
+`;
+
+const DateText = styled.p`
+  @media screen and (max-width: 500px) {
+    font-size: 10px;
+  }
 `;
 
 const MemberPageAccountBookDetails: React.FC = () => {
@@ -98,19 +126,21 @@ const MemberPageAccountBookDetails: React.FC = () => {
                 {Detail.category[0]}
               </CategoryBox>
               <div className="flex flex-col">
-                <p className="text-base text-re-color-004 font-semibold">
+                <CategoryText className="text-base text-re-color-004 font-semibold">
                   {Detail.category}
-                </p>
-                <p className="text-xs text-gray-003">{Detail.date}</p>
+                </CategoryText>
+                <DateText className="text-xs text-gray-003">
+                  {Detail.date}
+                </DateText>
               </div>
             </div>
             <div className="flex flex-row">
-              <p className="text-lg font-bold text-re-color-003 mr-4">
+              <MemoText className="text-lg font-bold text-re-color-003 mr-4">
                 {Detail.memo}
-              </p>
-              <p className="text-xl text-re-color-004 font-bold">
+              </MemoText>
+              <PriceText className="text-xl text-re-color-004 font-bold">
                 {Detail.price.toLocaleString()}
-              </p>
+              </PriceText>
             </div>
           </AccountDetailBox>
         ))}

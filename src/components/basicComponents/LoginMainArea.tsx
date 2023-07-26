@@ -32,6 +32,11 @@ const Box = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media screen and (max-width: 500px) {
+    width: 95%;
+    padding: 25px;
+  }
 `;
 
 const Button = styled.button`

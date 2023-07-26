@@ -25,6 +25,16 @@ const Container = styled.div`
   gap: 50px;
 
   padding-top: calc((100vh - 750px) / 2);
+
+  @media screen and (max-width: 800px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+
+    padding-top: 25px;
+    padding-bottom: 25px;
+  }
 `;
 
 const Box = styled.div`
@@ -39,6 +49,11 @@ const Box = styled.div`
   padding: 50px;
 
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+  @media screen and (max-width: 500px) {
+    width: 95%;
+    padding: 25px;
+  }
 `;
 
 const MemberPage: React.FC = () => {

@@ -21,6 +21,10 @@ const Button = styled.button`
 
   margin-top: 59px;
   margin-left: calc((400px - 200px) / 2);
+
+  @media screen and (max-width: 500px) {
+    margin-left: calc((100% - 200px) / 2);
+  }
 `;
 
 const MoveButton: React.FC<OwnProps> = (props) => {

@@ -16,6 +16,11 @@ const Box = styled.div`
   padding: 50px;
 
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+  @media screen and (max-width: 500px) {
+    width: 95%;
+    padding: 25px;
+  }
 `;
 
 const AccountMainArea: React.FC = () => {

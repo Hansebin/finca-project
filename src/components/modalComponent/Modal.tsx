@@ -46,6 +46,13 @@ const ModalBox = styled.div`
   background-color: white;
 
   transition: all 0.1s ease-in-out;
+
+  @media screen and (max-width: 800px) {
+    width: 300px;
+    height: 200px;
+
+    padding: 15px;
+  }
 `;
 
 const TextBox = styled.div`
@@ -54,6 +61,15 @@ const TextBox = styled.div`
   padding: 3px 16px;
 
   border-radius: 50%;
+
+  @media screen and (max-width: 800px) {
+  }
+`;
+
+const Message = styled.p`
+  @media screen and (max-width: 800px) {
+    font-size: 15px;
+  }
 `;
 
 const Button = styled.button`
@@ -65,6 +81,12 @@ const Button = styled.button`
   font-size: 26px;
   font-weight: 700;
   color: white;
+
+  @media screen and (max-width: 800px) {
+    padding: 5px 40px;
+    font-size: 20px;
+    border-radius: 7px;
+  }
 `;
 
 const Modal: React.FC = () => {
@@ -84,9 +106,9 @@ const Modal: React.FC = () => {
         <TextBox>
           <p className="text-3xl font-bold text-white">!</p>
         </TextBox>
-        <p className="text-center text-xl font-semibold text-re-color-003">
+        <Message className="text-center text-xl font-semibold text-re-color-003">
           {clickModal.text}
-        </p>
+        </Message>
         <Button onClick={clickBtn}>확인</Button>
       </ModalBox>
     </Container>

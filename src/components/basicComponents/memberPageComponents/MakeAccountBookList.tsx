@@ -31,6 +31,10 @@ const InputTitle = styled.p`
   font-size: 20px;
   color: #36338c;
   font-weight: 700;
+
+  @media screen and (max-width: 500px) {
+    font-size: 15px;
+  }
 `;
 
 const Input = styled.input`
@@ -42,10 +46,19 @@ const Input = styled.input`
   &:focus {
     outline: none;
   }
+
+  @media screen and (max-width: 500px) {
+    font-size: 15px;
+    width: 170px;
+  }
 `;
 
 const CategoryButton = styled.div<buttonProps>`
   background-color: ${(props) => (props.active ? "#36338C" : "#7966e4")};
+
+  @media screen and (max-width: 500px) {
+    padding: 5px 20px;
+  }
 `;
 
 const TypeButton = styled.div<buttonProps>`
@@ -59,6 +72,10 @@ const TypeButton = styled.div<buttonProps>`
   border-radius: 40px;
 
   cursor: pointer;
+
+  @media screen and (max-width: 500px) {
+    padding: 7px 30px;
+  }
 `;
 
 const ActiveButton = styled.button`
