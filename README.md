@@ -85,7 +85,7 @@ _자세한 개발 스택은 package.json 참고_
 
 ## 📄 Information
 
-### 프로젝트 노션 확인하기 👉🏻 [project notion](https://notion.so/.../...)
+### 프로젝트 노션 확인하기 👉🏻 [project notion](https://sebinn.notion.site/Finca-0b69614d4d994396a13fe5f7f2086519?pvs=4)
 
 #### 포함 내용
 
