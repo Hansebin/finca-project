@@ -83,8 +83,6 @@ const JoinMainArea: React.FC = () => {
     id,
     password,
     totalPrice,
-    expectSpending,
-    expectIncome,
     accountList,
     accountBookList,
   } = inputValue;
@@ -104,10 +102,7 @@ const JoinMainArea: React.FC = () => {
         accountNumber: accountNumber,
         bankingNumber: bankingNumber,
         id: id,
-        password: password,
         totalPrice: totalPrice,
-        expectSpending: expectSpending,
-        expectIncome: expectIncome,
         accountList: accountList,
         accountBookList: accountBookList,
       };
