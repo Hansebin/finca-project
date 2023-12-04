@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { RecoilRoot } from "recoil";
-import Router from "./router/router";
+import Router from "./router/Router";
 
 const App: React.FC = () => {
   return (
