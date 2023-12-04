@@ -2,19 +2,17 @@
 
 <img width="1072" alt="사진" src="https://github.com/Hansebin/front-project/assets/122770509/3b182639-26ab-4077-885d-8cdc1d049dd0">
 
-송금 및 충전과 지출 차트, 간단한 가계부 작성으로 효율적인 소비 습관을 만들 수 있도록 도와주는 핀테크 서비스입니다.
+<br />
 
-[ 👉🏻 서비스 이용하기](https://finca-project.vercel.app/)
+<strong>프로젝트 소개</strong> : 송금 및 충전과 지출 차트, 간단한 가계부 작성으로 효율적인 소비 습관을 만들 수 있도록 도와주는 핀테크 서비스.
 
-## ⚒️ Installation
+<strong>Finca 서비스 이용하기</strong> 👉🏻[ Finca 바로가기!](https://finca-project.vercel.app/)
 
-- Node.js v18.12.1
-
-`1. Clone this repo by running https://github.com/Hansebin/front-project`
-`2. npm install`
-`3. npm run dev`
+<br />
 
 ## Project Doc
+
+<br />
 
 ### 📍 Skill
 
@@ -24,26 +22,23 @@
 <img src="https://img.shields.io/badge/styledcomponents-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=white">
 <img src="https://img.shields.io/badge/recoil-3578E5?style=for-the-badge&logo=recoil&logoColor=white">
 
-| package name | version |
-| ------------ | ------- |
-| React        | 18.2.0  |
-| Typescript   | ^5.0.2  |
-| Vite         | ^4.3.9  |
-
 _자세한 개발 스택은 package.json 참고_
 
-### Pages
+<br />
+
+### 📄 Pages
 
 1. `pages/StartPage.tsx`: 시작 페이지(로그인 전 메인)
 2. `pages/LoginPage.tsx`: 로그지 페이지
 3. `JoinPage.tsx`: 회원가입 패이지
 4. `SocialJoinPage.tsx`: 소셜 로그인 회원가입 페이지
 5. `MemberPage.tsx`: 회원 페이지(로그인 후 매인)
-   ...
 
-### Configurations
+<br />
 
-#### 주요 페이지
+### 🔎 Configurations
+
+#### <strong>주요 페이지</strong>
 
 ##### 1. 첫 시작 페이지 (비회원용 미리 보기 페이지)
 
@@ -69,7 +64,7 @@ _자세한 개발 스택은 package.json 참고_
 
 <img width="1440" alt="스크린샷 2023-07-27 오후 12 41 13" src="https://github.com/Hansebin/front-project/assets/122770509/28111249-7022-4ec0-a3ad-3e6a44929c27">
 
-#### 주요 기능
+#### <strong>주요 기능</strong>
 
 ##### 1. 송금 - 보내기 기능
 
@@ -82,6 +77,8 @@ _자세한 개발 스택은 package.json 참고_
 ##### 3. 가계부 작성 기능
 
 <img width="1440" alt="스크린샷 2023-07-27 오후 12 41 29" src="https://github.com/Hansebin/front-project/assets/122770509/55752a1a-8a9c-49e5-9e7c-ee0bac83c149">
+
+<br />
 
 ## 📄 Information
 
