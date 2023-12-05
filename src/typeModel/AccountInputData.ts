@@ -1,7 +1,7 @@
-export type AccountInputValue = {
+export interface AccountInputValue {
   accountBookDate: number | string;
   accountBookPrice: number | string;
   accountBookMemo: string;
   category: string;
-  accountbookType: string;
-};
+  accountBookType: string;
+}

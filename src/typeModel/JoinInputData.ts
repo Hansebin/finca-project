@@ -1,19 +1,15 @@
-export type AccountDetail = {
+export interface AccountDetail {
   category: string;
   memo: string;
   price: number;
   date: string;
+}
+
+export type AccountBookDetail = AccountDetail & {
+  accountBookType: string;
 };
 
-export type AccountBookDetail = {
-  category: string;
-  memo: string;
-  price: number;
-  date: string;
-  accountbookType: string;
-};
-
-export type InputData = {
+export interface InputData {
   name: string;
   accountNumber: number;
   bankingNumber: number;
@@ -24,28 +20,27 @@ export type InputData = {
   expectIncome: number;
   accountList: AccountDetail[];
   accountBookList: AccountBookDetail[];
-};
+}
 
-// InputData -> Omit
 export type InputDataWithoutDetails = Omit<
   InputData,
   "accountList" | "accountBookList"
 >;
 
-export type InputDataIsValid = {
+export interface InputDataIsValid {
   name: boolean;
   accountNumber: boolean;
   bankingNumber: boolean;
   id: boolean;
   password: boolean;
-};
+}
 
-export type SocialInputDataIsValid = {
-  accountNumber: boolean;
-  bankingNumber: boolean;
-};
+export type SocialInputDataIsValid = Pick<
+  InputDataIsValid,
+  "accountNumber" | "bankingNumber"
+>;
 
-export type SocialJoinUserData = {
+export interface SocialJoinUserData {
   name: string | null;
   userUID: string;
-};
+}

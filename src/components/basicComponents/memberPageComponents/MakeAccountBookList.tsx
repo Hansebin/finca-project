@@ -167,7 +167,7 @@ const MakeAccountBookList: React.FC = () => {
       accountBookPrice: "",
       accountBookMemo: "",
       category: "",
-      accountbookType: "",
+      accountBookType: "",
     });
     handleCategoryClick("미선택");
   };
@@ -196,7 +196,7 @@ const MakeAccountBookList: React.FC = () => {
           ...accountBookList,
           {
             category: accountBookValue.category,
-            accountbookType: accountBookValue.accountbookType,
+            accountBookType: accountBookValue.accountBookType,
             memo: accountBookValue.accountBookMemo,
             price: accountBookValue.accountBookPrice,
             date: accountBookValue.accountBookDate,

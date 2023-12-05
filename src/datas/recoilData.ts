@@ -135,7 +135,7 @@ export const accountBookInputValueState = atom<AccountInputValue>({
     accountBookPrice: "",
     accountBookMemo: "",
     category: "",
-    accountbookType: "",
+    accountBookType: "",
   },
 });
 

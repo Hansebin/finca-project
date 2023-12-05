@@ -51,7 +51,7 @@ const MemberAccountBook: React.FC = () => {
 
     const newArr = memberData.accountBookList.filter(
       (data) =>
-        data.accountbookType === type &&
+        data.accountBookType === type &&
         data.date.includes(String(currentYear)) &&
         data.date.includes(String(currentMonth))
     );
