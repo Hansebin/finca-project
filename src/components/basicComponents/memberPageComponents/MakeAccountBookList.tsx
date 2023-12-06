@@ -148,10 +148,10 @@ const MakeAccountBookList: React.FC = () => {
     }));
   };
 
-  const handleTypeSelection = (accountbookType: string) => {
+  const handleTypeSelection = (accountBookType: string) => {
     setAccountBookValue((prevInputValues) => ({
       ...prevInputValues,
-      accountbookType: accountbookType,
+      accountBookType: accountBookType,
     }));
   };
 
