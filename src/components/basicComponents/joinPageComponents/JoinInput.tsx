@@ -7,7 +7,7 @@ import {
   InputData,
   InputDataWithoutDetails,
   InputDataIsValid,
-} from "../../../typeModel/JoinInputData";
+} from "../../../entities/JoinInputData.entity";
 import {
   isValidName,
   isValidAccountNumber,

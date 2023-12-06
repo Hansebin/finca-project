@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import { MemberDataState, ClickNavState } from "../../../datas/recoilData";
-import { Member, ClickNav } from "../../../typeModel/member";
+import { Member, ClickNav } from "../../../entities/member.entity";
 import MemberPageAccountDetails from "./MemberPageAccountDetails";
 
 const Button = styled.button`

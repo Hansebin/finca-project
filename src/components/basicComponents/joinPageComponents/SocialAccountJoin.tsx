@@ -12,7 +12,7 @@ import {
   SocialJoinUserData,
   InputData,
   SocialInputDataIsValid,
-} from "../../../typeModel/JoinInputData";
+} from "../../../entities/JoinInputData.entity";
 import SocialJoinInput from "./SocialJoinInput";
 import { db, collection, doc, setDoc } from "../../../firebase";
 import Modal from "../../modalComponent/Modal";

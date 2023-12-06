@@ -5,7 +5,7 @@ import { db, doc, getDoc } from "../firebase";
 import styled from "styled-components";
 import MemberSideNav from "../components/basicComponents/memberPageComponents/MemberSideNav";
 import { MemberDataState, ClickNavState } from "../datas/recoilData";
-import { Member, ClickNav } from "../typeModel/member";
+import { Member, ClickNav } from "../entities/member.entity";
 import MemberAccount from "../components/basicComponents/memberPageComponents/MemberAccount";
 import MemberAccountBook from "../components/basicComponents/memberPageComponents/MemberAccountBook";
 // import MemberChart from "../components/basicComponents/memberPageComponents/MemberChart";

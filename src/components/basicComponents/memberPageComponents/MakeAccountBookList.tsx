@@ -8,8 +8,8 @@ import {
   ClickTypeState,
   ClickModalState,
 } from "../../../datas/recoilData";
-import { Member } from "../../../typeModel/member";
-import { AccountInputValue } from "../../../typeModel/AccountInputData";
+import { Member } from "../../../entities/member.entity";
+import { AccountInputValue } from "../../../entities/AccountInputData.entity";
 import {
   db,
   query,

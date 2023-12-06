@@ -10,8 +10,8 @@ import {
   rechargeInputValueState,
 } from "../../../datas/recoilData";
 import Modal from "../../modalComponent/Modal";
-import { Member, ClickNav } from "../../../typeModel/member";
-import { RechargeInputValue } from "../../../typeModel/RechargeInputData";
+import { Member, ClickNav } from "../../../entities/member.entity";
+import { RechargeInputValue } from "../../../entities/RechargeInputData.entity";
 import {
   db,
   query,

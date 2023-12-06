@@ -4,11 +4,11 @@ import {
   InputDataIsValid,
   SocialJoinUserData,
   SocialInputDataIsValid,
-} from "../typeModel/JoinInputData";
-import { Member, ClickNav } from "../typeModel/member";
-import { RemitInputValue } from "../typeModel/RemitInputData";
-import { RechargeInputValue } from "../typeModel/RechargeInputData";
-import { AccountInputValue } from "../typeModel/AccountInputData";
+} from "../entities/JoinInputData.entity";
+import { Member, ClickNav } from "../entities/member.entity";
+import { RemitInputValue } from "../entities/RemitInputData.entity";
+import { RechargeInputValue } from "../entities/RechargeInputData.entity";
+import { AccountInputValue } from "../entities/AccountInputData.entity";
 
 // 1. 회원가입 전 회원 데이터 초기화
 export const inputValueState = atom<InputData>({

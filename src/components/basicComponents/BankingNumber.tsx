@@ -9,9 +9,9 @@ import {
   remitOrRecharge,
   rechargeInputValueState,
 } from "../../datas/recoilData";
-import { RemitInputValue } from "../../typeModel/RemitInputData";
-import { RechargeInputValue } from "../../typeModel/RechargeInputData";
-import { Member } from "../../typeModel/member";
+import { RemitInputValue } from "../../entities/RemitInputData.entity";
+import { RechargeInputValue } from "../../entities/RechargeInputData.entity";
+import { Member } from "../../entities/member.entity";
 import Modal from "../modalComponent/Modal";
 import {
   db,

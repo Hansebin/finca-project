@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { MemberDataState } from "../../../datas/recoilData";
-import { Member } from "../../../typeModel/member";
+import { Member } from "../../../entities/member.entity";
 import styled from "styled-components";
 import Pagination from "../../paginationComponent/Pagination";
 

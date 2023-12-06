@@ -15,7 +15,7 @@ import {
   SocialLoginUserDataState,
   ClickModalState,
 } from "../../datas/recoilData";
-import { SocialJoinUserData } from "../../typeModel/JoinInputData";
+import { SocialJoinUserData } from "../../entities/JoinInputData.entity";
 import Modal from "../modalComponent/Modal";
 
 // styled-components

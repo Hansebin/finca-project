@@ -9,8 +9,8 @@ import {
   ClickNavState,
   remitOrRecharge,
 } from "../../../datas/recoilData";
-import { Member, ClickNav } from "../../../typeModel/member";
-import { RemitInputValue } from "../../../typeModel/RemitInputData";
+import { Member, ClickNav } from "../../../entities/member.entity";
+import { RemitInputValue } from "../../../entities/RemitInputData.entity";
 import { db, query, where, getDocs, collection } from "../../../firebase";
 import Modal from "../../modalComponent/Modal";
 

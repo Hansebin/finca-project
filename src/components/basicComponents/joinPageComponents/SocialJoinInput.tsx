@@ -7,7 +7,7 @@ import {
   InputData,
   InputDataWithoutDetails,
   SocialInputDataIsValid,
-} from "../../../typeModel/JoinInputData";
+} from "../../../entities/JoinInputData.entity";
 import { isValidAccountNumber, isValidBankingNumber } from "./validItemFun";
 
 // styled-components

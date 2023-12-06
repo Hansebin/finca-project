@@ -8,7 +8,10 @@ import {
   IsValidState,
   ClickModalState,
 } from "../../../datas/recoilData";
-import { InputData, InputDataIsValid } from "../../../typeModel/JoinInputData";
+import {
+  InputData,
+  InputDataIsValid,
+} from "../../../entities/JoinInputData.entity";
 import { auth, createUserWithEmailAndPassword } from "../../../firebase";
 import { db, collection, doc, setDoc } from "../../../firebase";
 import Modal from "../../modalComponent/Modal";

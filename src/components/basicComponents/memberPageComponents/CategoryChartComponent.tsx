@@ -1,7 +1,7 @@
 import React from "react";
 import { useRecoilState } from "recoil";
 import { MemberDataState } from "../../../datas/recoilData";
-import { Member } from "../../../typeModel/member";
+import { Member } from "../../../entities/member.entity";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 

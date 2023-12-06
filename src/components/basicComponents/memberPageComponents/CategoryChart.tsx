@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useRecoilState } from "recoil";
 import { ClickNavState } from "../../../datas/recoilData";
-import { ClickNav } from "../../../typeModel/member";
+import { ClickNav } from "../../../entities/member.entity";
 import CategoryChartComponent from "./CategoryChartComponent";
 
 interface ActiveBtn {

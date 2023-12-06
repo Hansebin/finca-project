@@ -3,9 +3,8 @@ import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MemberDataState, ClickNavState } from "../../../datas/recoilData";
-import { Member, ClickNav } from "../../../typeModel/member";
+import { Member, ClickNav } from "../../../entities/member.entity";
 import { auth, signOut } from "../../../firebase";
-
 interface WhiteButtonProps {
   active: boolean;
 }
