@@ -192,10 +192,10 @@ const Recharge: React.FC = () => {
   return (
     <>
       <Modal />
-      <p className="text-4xl font-medium text-re-color-003 mb-10">충전하기</p>
+      <p className="text-4xl font-medium text-color-003 mb-10">충전하기</p>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-7">
-          <div className="flex flex-row items-center bg-re-color-001 w-full h-13 rounded-lg p-3">
+          <div className="flex flex-row items-center bg-color-001 w-full h-13 rounded-lg p-3">
             <InputTitle>충전 가능 계좌</InputTitle>
             <Input
               required
@@ -206,7 +206,7 @@ const Recharge: React.FC = () => {
               onChange={handleChange}
             />
           </div>
-          <div className="flex flex-row items-center bg-re-color-001 w-full h-13 rounded-lg p-3">
+          <div className="flex flex-row items-center bg-color-001 w-full h-13 rounded-lg p-3">
             <InputTitle>금액</InputTitle>
             <Input
               required

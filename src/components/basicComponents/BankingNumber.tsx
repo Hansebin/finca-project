@@ -278,10 +278,10 @@ const BankingNumber: React.FC = () => {
       <Modal />
       <div className="h-full flex flex-col justify-between">
         <div>
-          <p className="text-4xl font-medium text-re-color-003 mb-1">
+          <p className="text-4xl font-medium text-color-003 mb-1">
             뱅킹번호 입력
           </p>
-          <p className="text-lg font-medium text-re-color-002">
+          <p className="text-lg font-medium text-color-002">
             : 6자리 뱅킹번호를 입력해주세요.
           </p>
         </div>

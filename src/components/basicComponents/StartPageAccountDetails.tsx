@@ -11,10 +11,10 @@ const StartPageAccountDetails: React.FC = () => {
         {expenditureDetails.map((expenditureDetail) => (
           <div
             key={expenditureDetail.memo}
-            className="p-3 flex flex-row justify-between bg-re-color-001 rounded-md items-center"
+            className="p-3 flex flex-row justify-between bg-color-001 rounded-md items-center"
           >
             <div className="flex flex-row items-center justify-center gap-x-2">
-              <div className="flex flex-row w-8 h-8 items-center justify-center bg-re-color-003 rounded-full">
+              <div className="flex flex-row w-8 h-8 items-center justify-center bg-color-003 rounded-full">
                 <p className="text-white text-base font-bold">
                   {expenditureDetail.category[0]}
                 </p>
@@ -24,10 +24,10 @@ const StartPageAccountDetails: React.FC = () => {
               </p>
             </div>
             <div className="flex flex-row items-center justify-center gap-x-4">
-              <p className="text-base font-bold text-re-color-003">
+              <p className="text-base font-bold text-color-003">
                 {expenditureDetail.memo}
               </p>
-              <p className="font-bold text-xl text-re-color-004">
+              <p className="font-bold text-xl text-color-004">
                 -{expenditureDetail.amount.toLocaleString()}원
               </p>
             </div>

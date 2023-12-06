@@ -108,7 +108,7 @@ const JoinInput: React.FC<OwnProps> = (props) => {
 
   return (
     <div className="mb-3">
-      <div className="flex flex-row items-center bg-re-color-001 w-25 rounded-lg p-3">
+      <div className="flex flex-row items-center bg-color-001 w-25 rounded-lg p-3">
         <InputTitle>{props.title}</InputTitle>
         <Input
           required

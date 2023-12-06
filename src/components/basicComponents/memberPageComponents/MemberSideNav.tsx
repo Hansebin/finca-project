@@ -109,7 +109,7 @@ const MemberSideNav: React.FC = () => {
 
   return (
     <div>
-      <Text className="text-4xl font-bold text-re-color-002 mb-5">
+      <Text className="text-4xl font-bold text-color-002 mb-5">
         {memberData.name} 님,
       </Text>
       <NavContainer className="flex flex-col gap-y-5">

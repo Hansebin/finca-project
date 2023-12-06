@@ -56,9 +56,7 @@ const Text = styled.p`
 const SideNav: React.FC = () => {
   return (
     <div>
-      <Text className="text-4xl font-bold text-re-color-002 mb-5">
-        미리 보기
-      </Text>
+      <Text className="text-4xl font-bold text-color-002 mb-5">미리 보기</Text>
       <NavContainer className="flex flex-col gap-y-5">
         <WhiteButton disabled>계좌</WhiteButton>
         <GrayButton disabled>가계부</GrayButton>

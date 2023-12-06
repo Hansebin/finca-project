@@ -50,7 +50,7 @@ const CategoryChart: React.FC = () => {
           카테고리별
         </ChartBtn>
       </div>
-      <p className="text-3xl font-bold text-re-color-002 mt-10">
+      <p className="text-3xl font-bold text-color-002 mt-10">
         {new Date().getFullYear()}년 지출 차트
       </p>
       <div className="w-full mt-16">

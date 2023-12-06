@@ -106,7 +106,7 @@ const Modal: React.FC = () => {
         <TextBox>
           <p className="text-3xl font-bold text-white">!</p>
         </TextBox>
-        <Message className="text-center text-xl font-semibold text-re-color-003">
+        <Message className="text-center text-xl font-semibold text-color-003">
           {clickModal.text}
         </Message>
         <Button onClick={clickBtn}>확인</Button>

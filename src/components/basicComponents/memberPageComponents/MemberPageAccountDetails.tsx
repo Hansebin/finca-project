@@ -129,7 +129,7 @@ const MemberPageAccountDetails: React.FC = () => {
           <AccountDetailBox key={index}>
             <div className="flex flex-row items-center">
               <CategoryBox
-                className="py-2.5 px-3 bg-re-color-003 text-white rounded-full text-lg font-bold mr-2"
+                className="py-2.5 px-3 bg-color-003 text-white rounded-full text-lg font-bold mr-2"
                 color={
                   Detail.category === "충전"
                     ? "basic"
@@ -145,7 +145,7 @@ const MemberPageAccountDetails: React.FC = () => {
                 {Detail.category[0]}
               </CategoryBox>
               <div className="flex flex-col">
-                <CategoryText className="text-base text-re-color-004 font-semibold">
+                <CategoryText className="text-base text-color-004 font-semibold">
                   {Detail.category}
                 </CategoryText>
                 <DateText className="text-xs text-gray-003">
@@ -154,10 +154,10 @@ const MemberPageAccountDetails: React.FC = () => {
               </div>
             </div>
             <div className="flex flex-row">
-              <MemoText className="text-lg font-bold text-re-color-003 mr-4">
+              <MemoText className="text-lg font-bold text-color-003 mr-4">
                 {Detail.memo}
               </MemoText>
-              <PriceText className="text-xl text-re-color-004 font-bold">
+              <PriceText className="text-xl text-color-004 font-bold">
                 {Detail.price.toLocaleString()}
               </PriceText>
             </div>

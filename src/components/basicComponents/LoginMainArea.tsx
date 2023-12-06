@@ -139,26 +139,26 @@ const LoginMainArea: React.FC = () => {
           className="flex flex-col justify-center items-center"
           onSubmit={onSubmit}
         >
-          <div className="flex flex-row justify-between items-center bg-re-color-001 w-24 rounded-lg p-3 mb-5">
-            <p className="text-xl font-bold text-re-color-003">ID</p>
+          <div className="flex flex-row justify-between items-center bg-color-001 w-24 rounded-lg p-3 mb-5">
+            <p className="text-xl font-bold text-color-003">ID</p>
             <Input
               type="text"
               required
               autoComplete="off"
-              className="bg-re-color-001 w-230 font-medium text-lg"
+              className="bg-color-001 w-230 font-medium text-lg"
               placeholder="아이디를 입력하세요."
               name="emailId"
               onChange={handleChange}
               value={emailId}
             ></Input>
           </div>
-          <div className="flex flex-row justify-between items-center bg-re-color-001 w-24 rounded-lg p-3 mb-6">
-            <p className="text-xl font-bold text-re-color-003">PW</p>
+          <div className="flex flex-row justify-between items-center bg-color-001 w-24 rounded-lg p-3 mb-6">
+            <p className="text-xl font-bold text-color-003">PW</p>
             <Input
               type="password"
               required
               autoComplete="off"
-              className="bg-re-color-001 w-220 text-lg font-medium"
+              className="bg-color-001 w-220 text-lg font-medium"
               placeholder="비밀번호를 입력하세요."
               name="password"
               onChange={handleChange}
@@ -166,7 +166,7 @@ const LoginMainArea: React.FC = () => {
             ></Input>
           </div>
           <Button type="submit">로그인</Button>
-          <p className="text-base font-bold text-re-color-002">
+          <p className="text-base font-bold text-color-002">
             아이디가 없다면?{" "}
             <Link to="/join" className="underline">
               회원가입
@@ -176,12 +176,12 @@ const LoginMainArea: React.FC = () => {
         <div className="flex flex-col justify-center items-center mt-16">
           <p className="text-base font-bold text-gray-004 mb-2">소셜 로그인</p>
           <button
-            className="w-10 h-10 bg-re-color-002 rounded-full font-bold text-white text-xl mb-1"
+            className="w-10 h-10 bg-color-002 rounded-full font-bold text-white text-xl mb-1"
             onClick={handleGoogleLogin}
           >
             G
           </button>
-          <p className="text-xs font-bold text-re-color-002">구글</p>
+          <p className="text-xs font-bold text-color-002">구글</p>
         </div>
       </Box>
     </>

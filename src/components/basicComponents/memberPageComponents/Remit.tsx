@@ -187,10 +187,10 @@ const Remit: React.FC = () => {
   return (
     <>
       <Modal />
-      <p className="text-4xl font-medium text-re-color-003 mb-10">송금하기</p>
+      <p className="text-4xl font-medium text-color-003 mb-10">송금하기</p>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-7">
-          <div className="flex flex-row items-center bg-re-color-001 w-full h-13 rounded-lg p-3">
+          <div className="flex flex-row items-center bg-color-001 w-full h-13 rounded-lg p-3">
             <InputTitle>보낼 계좌</InputTitle>
             <Input
               required
@@ -201,7 +201,7 @@ const Remit: React.FC = () => {
               onChange={handleChange}
             />
           </div>
-          <div className="flex flex-row items-center bg-re-color-001 w-full h-13 rounded-lg p-3">
+          <div className="flex flex-row items-center bg-color-001 w-full h-13 rounded-lg p-3">
             <InputTitle>금액</InputTitle>
             <Input
               required
@@ -211,7 +211,7 @@ const Remit: React.FC = () => {
               onChange={handleChange}
             />
           </div>
-          <div className="flex flex-row items-center bg-re-color-001 w-full h-13 rounded-lg p-3">
+          <div className="flex flex-row items-center bg-color-001 w-full h-13 rounded-lg p-3">
             <InputTitle>메모</InputTitle>
             <Input
               required
@@ -223,7 +223,7 @@ const Remit: React.FC = () => {
           </div>
         </div>
         <div>
-          <p className="text-sm font-bold text-re-color-003 mt-6 mb-4">
+          <p className="text-sm font-bold text-color-003 mt-6 mb-4">
             카데고리 선택
           </p>
           <div className="flex flex-row justify-between">
@@ -258,7 +258,7 @@ const Remit: React.FC = () => {
               쇼핑
             </CategoryButton>
             <CategoryButton
-              className="py-1.5 px-6 bg-re-color-002 text-white rounded-full font-bold cursor-pointer"
+              className="py-1.5 px-6 bg-color-002 text-white rounded-full font-bold cursor-pointer"
               active={ClickCategory === "기타"}
               onClick={() => {
                 handleCategorySelection("기타");
